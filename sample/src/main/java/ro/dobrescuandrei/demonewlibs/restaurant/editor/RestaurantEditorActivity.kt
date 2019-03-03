@@ -31,7 +31,9 @@ class RestaurantEditorActivity : RestaurantEditorAdapter()
             ShowDialog.withList(context = this,
                 title = R.string.choose_type,
                 onClick = { index, value ->
-                    viewModel..{ type=index+1 }
+                    viewModel.notifyChange { restaurant ->
+                        restaurant.type=index+1
+                    }
                 },
                 values = listOf(
                     getString(R.string.normal),
@@ -42,7 +44,9 @@ class RestaurantEditorActivity : RestaurantEditorAdapter()
         {
             override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean)
             {
-                viewModel..{ rating=progress+1 }
+                viewModel.notifyChange { restaurant ->
+                    restaurant.rating=progress+1
+                }
             }
 
             override fun onStartTrackingTouch(seekBar: SeekBar?)
@@ -55,7 +59,9 @@ class RestaurantEditorActivity : RestaurantEditorAdapter()
         })
 
         nameEditText.setOnTextChangedListener { name ->
-            viewModel..{ it.name=name }
+            viewModel.notifyChange { restaurant ->
+                restaurant.name=name
+            }
         }
 
         setupChooserDemo()

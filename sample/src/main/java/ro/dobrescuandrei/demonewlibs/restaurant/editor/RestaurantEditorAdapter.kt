@@ -20,7 +20,7 @@ abstract class RestaurantEditorAdapter : BaseEditorActivity<Restaurant, Restaura
         if (restaurant.type== NO_VALUE_INT)
         {
             typeErrorLabel.visibility=View.VISIBLE
-            typeLabel.visibility= View.GONE
+            typeLabel.visibility=View.GONE
             viewModel.isValid=false
         }
         else

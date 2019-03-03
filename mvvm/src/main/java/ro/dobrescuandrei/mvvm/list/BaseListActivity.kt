@@ -15,7 +15,7 @@ import ro.dobrescuandrei.mvvm.R
 import ro.dobrescuandrei.mvvm.list.item_decoration.FABDividerItemDecoration
 import ro.dobrescuandrei.mvvm.list.item_decoration.StickyHeadersItemDecoration
 
-abstract class BaseListActivity<VIEW_MODEL : BaseListViewModel<*>, ADAPTER : BaseDeclarativeAdapter> : BaseActivity<VIEW_MODEL>()
+abstract class BaseListActivity<VIEW_MODEL : BaseListViewModel<*, *>, ADAPTER : BaseDeclarativeAdapter> : BaseActivity<VIEW_MODEL>()
 {
     lateinit var recyclerView : RecyclerViewMod
     lateinit var emptyView : TextView
@@ -86,7 +86,7 @@ abstract class BaseListActivity<VIEW_MODEL : BaseListViewModel<*>, ADAPTER : Bas
             firstPageItems.observe(this@BaseListActivity) { items ->
                 if (items!=null)
                 {
-                    recyclerView.adapter?.setItems(items)
+                    recyclerView.adapter?.setItems(items as List<Any>)
                     recyclerView.scrollToPosition(0)
                 }
             }
@@ -94,7 +94,7 @@ abstract class BaseListActivity<VIEW_MODEL : BaseListViewModel<*>, ADAPTER : Bas
             nextPageItems.observe(this@BaseListActivity) { items ->
                 if (items!=null)
                 {
-                    recyclerView.adapter?.addItems(items)
+                    recyclerView.adapter?.addItems(items as List<Any>)
                 }
             }
 

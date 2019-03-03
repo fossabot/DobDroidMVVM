@@ -20,7 +20,7 @@ import ro.dobrescuandrei.mvvm.list.item_decoration.StickyHeadersItemDecoration
 import ro.dobrescuandrei.mvvm.utils.OnKeyboardClosedEvent
 import ro.dobrescuandrei.mvvm.utils.OnKeyboardOpenedEvent
 
-abstract class BaseListFragment<VIEW_MODEL : BaseListViewModel<*>, ADAPTER : BaseDeclarativeAdapter> : BaseFragment<VIEW_MODEL>()
+abstract class BaseListFragment<VIEW_MODEL : BaseListViewModel<*, *>, ADAPTER : BaseDeclarativeAdapter> : BaseFragment<VIEW_MODEL>()
 {
     lateinit var recyclerView : RecyclerViewMod
     lateinit var emptyView : TextView
@@ -91,7 +91,7 @@ abstract class BaseListFragment<VIEW_MODEL : BaseListViewModel<*>, ADAPTER : Bas
             firstPageItems.observe(this@BaseListFragment) { items ->
                 if (items!=null)
                 {
-                    recyclerView.adapter?.setItems(items)
+                    recyclerView.adapter?.setItems(items as List<Any>)
                     recyclerView.scrollToPosition(0)
                 }
             }
@@ -99,7 +99,7 @@ abstract class BaseListFragment<VIEW_MODEL : BaseListViewModel<*>, ADAPTER : Bas
             nextPageItems.observe(this@BaseListFragment) { items ->
                 if (items!=null)
                 {
-                    recyclerView.adapter?.addItems(items)
+                    recyclerView.adapter?.addItems(items as List<Any>)
                 }
             }
 

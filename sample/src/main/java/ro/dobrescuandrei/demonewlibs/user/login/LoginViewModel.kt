@@ -1,13 +1,15 @@
 package ro.dobrescuandrei.demonewlibs.user.login
 
 import android.text.TextUtils
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.rxkotlin.subscribeBy
+import io.reactivex.schedulers.Schedulers
 import ro.dobrescuandrei.demonewlibs.R
 import ro.dobrescuandrei.demonewlibs.api.LoginRequest
 import ro.dobrescuandrei.demonewlibs.model.utils.OnLoggedInEvent
 import ro.dobrescuandrei.demonewlibs.model.utils.Preferences
 import ro.dobrescuandrei.mvvm.BaseViewModel
 import ro.dobrescuandrei.mvvm.utils.ForegroundEventBus
-import ro.dobrescuandrei.utils.Run
 
 class LoginViewModel : BaseViewModel()
 {
@@ -21,14 +23,20 @@ class LoginViewModel : BaseViewModel()
             {
                 showLoading()
 
-                Run.async(task = { LoginRequest(username, password).execute() },
-                    onAny = { hideLoading() },
-                    onError = { showError(R.string.invalid_username_or_password) },
-                    onSuccess = { user ->
+                LoginRequest(username, password).execute()
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribeBy(onNext = { user ->
+                        hideLoading()
+
                         Preferences.userId=user.id?:0
                         Preferences.username=user.name
 
                         ForegroundEventBus.post(OnLoggedInEvent())
+                    }, onError = {
+                        hideLoading()
+
+                        showError(R.string.invalid_username_or_password)
                     })
             }
         }

@@ -1,31 +1,33 @@
 package ro.dobrescuandrei.demonewlibs.restaurant.details
 
-import ro.dobrescuandrei.demonewlibs.api.GetRestaurantsRequest
+import io.reactivex.Observable
+import ro.dobrescuandrei.demonewlibs.api.GetRestaurantDetailsRequest
 import ro.dobrescuandrei.demonewlibs.model.Restaurant
-import ro.dobrescuandrei.demonewlibs.model.RestaurantFilter
 import ro.dobrescuandrei.demonewlibs.model.utils.FirstPageHeader
 import ro.dobrescuandrei.demonewlibs.model.utils.SecondPageHeader
 import ro.dobrescuandrei.mvvm.details.BaseDetailsViewModel
+import ro.dobrescuandrei.utils.yielding
 
 class RestaurantDetailsViewModel : BaseDetailsViewModel<Restaurant>()
 {
     var firstPageStickyHeaderIndex  : Int = Int.MAX_VALUE
     var secondPageStickyHeaderIndex : Int = Int.MAX_VALUE
 
-    override fun getItems() : List<Any>
-    {
-        val restaurantId=model.id
-        val items=mutableListOf<Any>()
-        val restaurants=GetRestaurantsRequest(null, RestaurantFilter(), 10, 0).execute()
+    override fun getItems() : Observable<List<Any>> =
+        GetRestaurantDetailsRequest(model.id).execute()
+            .map { restaurant ->
+                yielding<Any> {
+                    val restaurantId=model.id
 
-        firstPageStickyHeaderIndex=items.size
-        items.add(FirstPageHeader())
-        items.addAll(restaurants)
+                    firstPageStickyHeaderIndex=index()
+                    yield(FirstPageHeader())
+                    for (i in 1..10)
+                        yield(restaurant)
 
-        secondPageStickyHeaderIndex=items.size
-        items.add(SecondPageHeader())
-        items.addAll(restaurants)
-
-        return items
-    }
+                    secondPageStickyHeaderIndex=index()
+                    yield(SecondPageHeader())
+                    for (i in 1..10)
+                        yield(restaurant)
+                }
+            }
 }

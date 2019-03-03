@@ -1,12 +1,16 @@
 package ro.dobrescuandrei.mvvm.editor
 
 import androidx.lifecycle.MutableLiveData
+import io.reactivex.Observable
+import io.reactivex.Observer
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.disposables.Disposable
+import io.reactivex.schedulers.Schedulers
 import ro.dobrescuandrei.mvvm.BaseViewModel
 import ro.dobrescuandrei.mvvm.R
 import ro.dobrescuandrei.mvvm.utils.ForegroundEventBus
 import ro.dobrescuandrei.mvvm.utils.Identifiable
 import ro.dobrescuandrei.mvvm.utils.OnEditorModel
-import ro.dobrescuandrei.utils.Run
 
 abstract class BaseEditorViewModel<MODEL : Identifiable<ID>, ID> : BaseViewModel
 {
@@ -21,20 +25,20 @@ abstract class BaseEditorViewModel<MODEL : Identifiable<ID>, ID> : BaseViewModel
     open fun  addMode() = model.value?.id==null
     open fun editMode() = model.value?.id!=null
 
-    abstract fun add (model : MODEL) : ID
-    abstract fun edit(model : MODEL)
+    abstract fun add (model : MODEL) : Observable<ID>
+    abstract fun edit(model : MODEL) : Observable<ID>
 
-    open fun provideErrorMessage(ex : Exception? = null) = R.string.you_have_errors_please_correct
+    open fun provideErrorMessage(ex : Throwable? = null) = R.string.you_have_errors_please_correct
 
     constructor(model : MODEL)
     {
         this.model.value=model
     }
 
-    inline operator fun rangeTo(consumer : MODEL.(MODEL) -> (Unit))
+    fun notifyChange(consumer : (MODEL) -> (Unit))
     {
         model.value?.let { model ->
-            consumer(model, model)
+            consumer(model)
 
             if (shouldNotifyModelLiveDataOnPropertyChange)
             {
@@ -50,25 +54,34 @@ abstract class BaseEditorViewModel<MODEL : Identifiable<ID>, ID> : BaseViewModel
             loading.value=true
 
             model.value?.let { model ->
-                val addMode=addMode()
-                Run.async(task = {
-                    if (addMode)
-                        model.id=add(model)
-                    else edit(model)
-                },
-                onAny = {
-                    loading.value=false
-                },
-                onError = { exception ->
-                    error.value=provideErrorMessage(exception)
-                },
-                onSuccess = {
-                    ForegroundEventBus.post(if (addMode)
-                         OnEditorModel.AddedEvent(model)
-                    else OnEditorModel.EditedEvent(model))
+                (if (addMode())
+                    add(model)
+                else edit(model))
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(object : Observer<ID>
+                    {
+                        override fun onSubscribe(d: Disposable) {}
+                        override fun onComplete() {}
 
-                    ForegroundEventBus.post(OnEditorModel.AddedOrEditedEvent(model))
-                })
+                        override fun onNext(id: ID)
+                        {
+                            model.id=id
+
+                            if (addMode())
+                                ForegroundEventBus.post(OnEditorModel.AddedEvent(model))
+                            else ForegroundEventBus.post(OnEditorModel.EditedEvent(model))
+
+                            ForegroundEventBus.post(OnEditorModel.AddedOrEditedEvent(model))
+                        }
+
+                        override fun onError(exception: Throwable)
+                        {
+                            hideLoading()
+                            showError(provideErrorMessage(exception))
+                        }
+
+                    })
             }
         }
         else
