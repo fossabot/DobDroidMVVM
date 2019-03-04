@@ -3,7 +3,7 @@ package ro.dobrescuandrei.demonewlibs.api
 import io.reactivex.Observable
 import ro.dobrescuandrei.demonewlibs.model.Restaurant
 import ro.dobrescuandrei.demonewlibs.model.RestaurantFilter
-import ro.dobrescuandrei.utils.yielding
+import ro.dobrescuandrei.utils.yieldListOf
 
 class GetRestaurantsRequest
 (
@@ -15,7 +15,7 @@ class GetRestaurantsRequest
 {
     override fun execute() = Observable.fromCallable {
         Thread.sleep(1000)
-        return@fromCallable yielding<Restaurant> {
+        return@fromCallable yieldListOf<Restaurant> {
             if (offset<400)
                 for (i in offset+1..offset+limit)
                     yield(Restaurant(id = i, name = "R$i", rating = 5, type = Restaurant.TYPE_NORMAL))

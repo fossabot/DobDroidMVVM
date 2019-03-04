@@ -6,7 +6,7 @@ import ro.dobrescuandrei.demonewlibs.model.Restaurant
 import ro.dobrescuandrei.demonewlibs.model.utils.FirstPageHeader
 import ro.dobrescuandrei.demonewlibs.model.utils.SecondPageHeader
 import ro.dobrescuandrei.mvvm.details.BaseDetailsViewModel
-import ro.dobrescuandrei.utils.yielding
+import ro.dobrescuandrei.utils.yieldListOf
 
 class RestaurantDetailsViewModel : BaseDetailsViewModel<Restaurant>()
 {
@@ -16,7 +16,7 @@ class RestaurantDetailsViewModel : BaseDetailsViewModel<Restaurant>()
     override fun getItems() : Observable<List<Any>> =
         GetRestaurantDetailsRequest(model.id).execute()
             .map { restaurant ->
-                yielding<Any> {
+                yieldListOf<Any> {
                     firstPageStickyHeaderIndex=index()
                     yield(FirstPageHeader())
                     for (i in 1..10)
