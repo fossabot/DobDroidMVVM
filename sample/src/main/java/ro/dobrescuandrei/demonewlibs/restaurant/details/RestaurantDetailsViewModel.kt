@@ -16,9 +16,7 @@ class RestaurantDetailsViewModel : BaseDetailsViewModel<Restaurant>()
     override fun getItems() : Observable<List<Any>> =
         GetRestaurantDetailsRequest(model.id).execute()
             .map { restaurant ->
-                yielding<Any> {
-                    val restaurantId=model.id
-
+                yielding<Any> 
                     firstPageStickyHeaderIndex=index()
                     yield(FirstPageHeader())
                     for (i in 1..10)
