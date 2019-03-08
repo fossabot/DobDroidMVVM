@@ -44,10 +44,6 @@ dependencies {
         exclude group: 'com.squareup.okhttp3'
     }
 
-    //rx
-    api 'io.reactivex.rxjava2:rxkotlin:2.3.0'
-    api 'io.reactivex.rxjava2:rxandroid:2.1.1'
-
     //keyboard events
     api 'net.yslibrary.keyboardvisibilityevent:keyboardvisibilityevent:2.2.0'
 
