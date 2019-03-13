@@ -6,7 +6,7 @@ import ro.dobrescuandrei.mvvm.R
 import ro.dobrescuandrei.mvvm.utils.ForegroundEventBus
 import ro.dobrescuandrei.mvvm.utils.OnEditorModel
 
-abstract class BaseEditorViewModel<MODEL : Any, ID> : BaseViewModel
+abstract class BaseEditorViewModel<MODEL : Any> : BaseViewModel
 {
     @PublishedApi
     internal val model : MutableLiveData<MODEL> by lazy { MutableLiveData<MODEL>() }

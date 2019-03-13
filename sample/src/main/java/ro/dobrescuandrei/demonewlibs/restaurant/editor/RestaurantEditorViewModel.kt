@@ -6,7 +6,7 @@ import ro.dobrescuandrei.demonewlibs.model.Restaurant
 import ro.dobrescuandrei.demonewlibs.model.utils.ID
 import ro.dobrescuandrei.mvvm.editor.BaseEditorViewModel
 
-class RestaurantEditorViewModel : BaseEditorViewModel<Restaurant, ID>(Restaurant())
+class RestaurantEditorViewModel : BaseEditorViewModel<Restaurant>(Restaurant())
 {
     override fun add(restaurant : Restaurant) =
         AddRestaurantRequest(restaurant).execute()
