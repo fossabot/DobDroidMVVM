@@ -15,6 +15,7 @@ abstract class BaseEditorActivity<MODEL : Any, VIEW_MODEL : BaseEditorViewModel<
     {
         val model=intent?.extras?.getSerializable(ARG_MODEL) as? MODEL
         if (model!=null) viewModel.model.value=model
+        viewModel.addMode=model==null
     }
 
     override fun onCreate(savedInstanceState: Bundle?)

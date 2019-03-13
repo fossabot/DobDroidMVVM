@@ -14,10 +14,13 @@ abstract class BaseEditorViewModel<MODEL : Any> : BaseViewModel
     @PublishedApi
     internal var shouldNotifyModelLiveDataOnPropertyChange : Boolean = true
 
+    @PublishedApi
+    internal var addMode : Boolean = true
+
     var isValid : Boolean = false
 
-    open fun  addMode() = model.value==null
-    open fun editMode() = model.value!=null
+    open fun  addMode() = addMode
+    open fun editMode() = !addMode
 
     abstract fun add (model : MODEL)
     abstract fun edit(model : MODEL)
