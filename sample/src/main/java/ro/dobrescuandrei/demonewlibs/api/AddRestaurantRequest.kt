@@ -6,7 +6,7 @@ import ro.dobrescuandrei.demonewlibs.model.utils.ID
 class AddRestaurantRequest
 (
     val restaurant : Restaurant
-) : BaseRequest<ID>()
+) : BaseRequest<Unit>()
 {
-    override fun execute() = 100
+    override fun execute() {}
 }

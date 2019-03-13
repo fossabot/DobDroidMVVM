@@ -8,7 +8,7 @@ import ro.dobrescuandrei.mvvm.editor.BaseEditorViewModel
 
 class RestaurantEditorViewModel : BaseEditorViewModel<Restaurant, ID>(Restaurant())
 {
-    override fun add(restaurant : Restaurant) : ID =
+    override fun add(restaurant : Restaurant) =
         AddRestaurantRequest(restaurant).execute()
 
     override fun edit(restaurant : Restaurant) =

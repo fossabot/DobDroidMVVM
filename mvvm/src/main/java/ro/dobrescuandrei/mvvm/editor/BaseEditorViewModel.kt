@@ -4,10 +4,9 @@ import androidx.lifecycle.MutableLiveData
 import ro.dobrescuandrei.mvvm.BaseViewModel
 import ro.dobrescuandrei.mvvm.R
 import ro.dobrescuandrei.mvvm.utils.ForegroundEventBus
-import ro.dobrescuandrei.mvvm.utils.Identifiable
 import ro.dobrescuandrei.mvvm.utils.OnEditorModel
 
-abstract class BaseEditorViewModel<MODEL : Identifiable<ID>, ID> : BaseViewModel
+abstract class BaseEditorViewModel<MODEL : Any, ID> : BaseViewModel
 {
     @PublishedApi
     internal val model : MutableLiveData<MODEL> by lazy { MutableLiveData<MODEL>() }
@@ -17,10 +16,10 @@ abstract class BaseEditorViewModel<MODEL : Identifiable<ID>, ID> : BaseViewModel
 
     var isValid : Boolean = false
 
-    open fun  addMode() = model.value?.id==null
-    open fun editMode() = model.value?.id!=null
+    open fun  addMode() = model.value==null
+    open fun editMode() = model.value!=null
 
-    abstract fun add (model : MODEL) : ID
+    abstract fun add (model : MODEL)
     abstract fun edit(model : MODEL)
 
     open fun provideErrorMessage(ex : Throwable? = null) = R.string.you_have_errors_please_correct
@@ -50,7 +49,7 @@ abstract class BaseEditorViewModel<MODEL : Identifiable<ID>, ID> : BaseViewModel
                 try
                 {
                     if (addMode())
-                        model.id=add(model)
+                        add(model)
                     else edit(model)
 
                     if (addMode())

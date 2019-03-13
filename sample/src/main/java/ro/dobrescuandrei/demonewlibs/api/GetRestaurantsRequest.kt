@@ -15,6 +15,6 @@ class GetRestaurantsRequest
     override fun execute() = yieldListOf<Restaurant> {
         if (offset<400)
             for (i in offset+1..offset+limit)
-                yield(Restaurant(id = i, name = "R$i", rating = 5, type = Restaurant.TYPE_NORMAL))
+                yield(Restaurant(name = "R$i", rating = 5, type = Restaurant.TYPE_NORMAL))
     }
 }

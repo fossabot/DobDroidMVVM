@@ -22,7 +22,7 @@ class LoginViewModel : BaseViewModel()
                 {
                     val user=LoginRequest(username, password).execute()
 
-                    Preferences.userId=user.id?:0
+                    Preferences.userId=user.id
                     Preferences.username=user.name
 
                     ForegroundEventBus.post(OnLoggedInEvent())

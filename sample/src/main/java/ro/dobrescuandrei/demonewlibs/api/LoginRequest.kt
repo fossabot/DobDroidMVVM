@@ -8,5 +8,5 @@ class LoginRequest
     val password : String
 ) : BaseRequest<User>()
 {
-    override fun execute() = User(1, "asdf")
+    override fun execute() = User(name = "asdf")
 }

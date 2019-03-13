@@ -1,10 +1,10 @@
 package ro.dobrescuandrei.demonewlibs.model
 
 import ro.dobrescuandrei.demonewlibs.model.utils.ID
-import ro.dobrescuandrei.mvvm.utils.Identifiable
+import ro.dobrescuandrei.demonewlibs.model.utils.uuid
 
 class User
 (
-    id : ID,
+    val id : ID = uuid(),
     val name : String
-) : Identifiable<ID>(id)
+)

@@ -1,3 +1,7 @@
 package ro.dobrescuandrei.demonewlibs.model.utils
 
-typealias ID = Int?
+import java.util.*
+
+typealias ID = String
+
+fun uuid() = UUID.randomUUID().toString()

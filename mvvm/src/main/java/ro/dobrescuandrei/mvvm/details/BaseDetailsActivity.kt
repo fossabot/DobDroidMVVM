@@ -3,9 +3,8 @@ package ro.dobrescuandrei.mvvm.details
 import ro.andreidobrescu.declarativeadapterkt.BaseDeclarativeAdapter
 import ro.dobrescuandrei.mvvm.list.BaseListActivity
 import ro.dobrescuandrei.mvvm.utils.ARG_MODEL
-import ro.dobrescuandrei.mvvm.utils.Identifiable
 
-abstract class BaseDetailsActivity<MODEL : Identifiable<*>, VIEW_MODEL : BaseDetailsViewModel<MODEL>, ADAPTER : BaseDeclarativeAdapter> : BaseListActivity<VIEW_MODEL, ADAPTER>()
+abstract class BaseDetailsActivity<MODEL : Any, VIEW_MODEL : BaseDetailsViewModel<MODEL>, ADAPTER : BaseDeclarativeAdapter> : BaseListActivity<VIEW_MODEL, ADAPTER>()
 {
     override fun loadDataFromIntent()
     {

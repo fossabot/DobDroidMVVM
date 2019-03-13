@@ -5,6 +5,6 @@ import ro.dobrescuandrei.utils.cached
 
 object Preferences : KotprefModel()
 {
-    var userId by cached(intPref())
+    var userId by cached(stringPref())
     var username by cached(stringPref())
 }
