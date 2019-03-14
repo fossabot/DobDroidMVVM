@@ -3,6 +3,7 @@ package ro.dobrescuandrei.mvvm.editor
 import androidx.lifecycle.MutableLiveData
 import ro.dobrescuandrei.mvvm.BaseViewModel
 import ro.dobrescuandrei.mvvm.R
+import ro.dobrescuandrei.mvvm.utils.BackgroundEventBus
 import ro.dobrescuandrei.mvvm.utils.ForegroundEventBus
 import ro.dobrescuandrei.mvvm.utils.OnEditorModel
 
@@ -56,10 +57,10 @@ abstract class BaseEditorViewModel<MODEL : Any> : BaseViewModel
                     else edit(model)
 
                     if (addMode())
-                        ForegroundEventBus.post(OnEditorModel.AddedEvent(model))
-                    else ForegroundEventBus.post(OnEditorModel.EditedEvent(model))
+                        BackgroundEventBus.post(OnEditorModel.AddedEvent(model))
+                    else BackgroundEventBus.post(OnEditorModel.EditedEvent(model))
 
-                    ForegroundEventBus.post(OnEditorModel.AddedOrEditedEvent(model))
+                    BackgroundEventBus.post(OnEditorModel.AddedOrEditedEvent(model))
                 }
                 catch (exception : Exception)
                 {
