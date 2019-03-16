@@ -1,4 +1,4 @@
-package ro.dobrescuandrei.mvvm.utils
+package ro.dobrescuandrei.mvvm.eventbus
 
 class OnKeyboardOpenedEvent
 class OnKeyboardClosedEvent

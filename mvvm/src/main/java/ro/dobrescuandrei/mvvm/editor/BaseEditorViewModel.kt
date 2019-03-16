@@ -3,9 +3,8 @@ package ro.dobrescuandrei.mvvm.editor
 import androidx.lifecycle.MutableLiveData
 import ro.dobrescuandrei.mvvm.BaseViewModel
 import ro.dobrescuandrei.mvvm.R
-import ro.dobrescuandrei.mvvm.utils.BackgroundEventBus
-import ro.dobrescuandrei.mvvm.utils.ForegroundEventBus
-import ro.dobrescuandrei.mvvm.utils.OnEditorModel
+import ro.dobrescuandrei.mvvm.eventbus.BackgroundEventBus
+import ro.dobrescuandrei.mvvm.eventbus.OnEditorModel
 
 abstract class BaseEditorViewModel<MODEL : Any> : BaseViewModel
 {

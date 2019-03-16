@@ -11,8 +11,9 @@ import ro.dobrescuandrei.demonewlibs.model.utils.OnRestaurantChoosedEvent
 import ro.dobrescuandrei.demonewlibs.model.utils.RefreshRestaurantListCommand
 import ro.dobrescuandrei.demonewlibs.router.ActivityRouter
 import ro.dobrescuandrei.demonewlibs.router.ShowDialog
-import ro.dobrescuandrei.mvvm.utils.BackgroundEventBus
-import ro.dobrescuandrei.mvvm.utils.OnEditorModel
+import ro.dobrescuandrei.mvvm.eventbus.BackgroundEventBus
+import ro.dobrescuandrei.mvvm.eventbus.OnActivityResult
+import ro.dobrescuandrei.mvvm.eventbus.OnEditorModel
 import ro.dobrescuandrei.utils.setOnTextChangedListener
 import ro.dobrescuandrei.utils.setupBackIcon
 
@@ -92,16 +93,16 @@ class RestaurantEditorActivity : RestaurantEditorAdapter()
     {
         simpleChooseDemoButton.setOnClickListener {
             ActivityRouter.startChooseRestaurantActivity(from = it.context)
+            OnActivityResult<OnRestaurantChoosedEvent> { event ->
+                println(event.restaurant.toString())
+            }
         }
 
         pagedChooseDemoButton.setOnClickListener {
             ActivityRouter.startChoosePagedRestaurantActivity(from = it.context)
+            OnActivityResult<OnRestaurantChoosedEvent> { event ->
+                println(event.restaurant.toString())
+            }
         }
-    }
-
-    @Subscribe
-    fun onRestaurantChoosed(event : OnRestaurantChoosedEvent)
-    {
-        println(event.restaurant.toString())
     }
 }

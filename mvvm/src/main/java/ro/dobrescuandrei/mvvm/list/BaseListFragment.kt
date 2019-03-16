@@ -17,8 +17,8 @@ import ro.dobrescuandrei.mvvm.BaseFragment
 import ro.dobrescuandrei.mvvm.R
 import ro.dobrescuandrei.mvvm.list.item_decoration.FABDividerItemDecoration
 import ro.dobrescuandrei.mvvm.list.item_decoration.StickyHeadersItemDecoration
-import ro.dobrescuandrei.mvvm.utils.OnKeyboardClosedEvent
-import ro.dobrescuandrei.mvvm.utils.OnKeyboardOpenedEvent
+import ro.dobrescuandrei.mvvm.eventbus.OnKeyboardClosedEvent
+import ro.dobrescuandrei.mvvm.eventbus.OnKeyboardOpenedEvent
 
 abstract class BaseListFragment<VIEW_MODEL : BaseListViewModel<*, *>, ADAPTER : BaseDeclarativeAdapter> : BaseFragment<VIEW_MODEL>()
 {

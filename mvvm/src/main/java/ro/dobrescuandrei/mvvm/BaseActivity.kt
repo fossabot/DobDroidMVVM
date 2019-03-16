@@ -16,6 +16,10 @@ import com.franmontiel.localechanger.LocaleChanger
 import com.miguelcatalan.materialsearchview.MaterialSearchView
 import net.yslibrary.android.keyboardvisibilityevent.KeyboardVisibilityEvent
 import net.yslibrary.android.keyboardvisibilityevent.Unregistrar
+import ro.dobrescuandrei.mvvm.eventbus.BackgroundEventBus
+import ro.dobrescuandrei.mvvm.eventbus.ForegroundEventBus
+import ro.dobrescuandrei.mvvm.eventbus.OnKeyboardClosedEvent
+import ro.dobrescuandrei.mvvm.eventbus.OnKeyboardOpenedEvent
 import ro.dobrescuandrei.mvvm.utils.*
 import ro.dobrescuandrei.utils.Keyboard
 import ro.dobrescuandrei.utils.onCreateOptionsMenu

@@ -5,7 +5,7 @@ import android.widget.Button
 import ro.dobrescuandrei.mvvm.BaseActivity
 import ro.dobrescuandrei.mvvm.R
 import ro.dobrescuandrei.mvvm.utils.ARG_MODEL
-import ro.dobrescuandrei.mvvm.utils.OnEditorModel
+import ro.dobrescuandrei.mvvm.eventbus.OnEditorModel
 
 abstract class BaseEditorActivity<MODEL : Any, VIEW_MODEL : BaseEditorViewModel<MODEL>> : BaseActivity<VIEW_MODEL>()
 {

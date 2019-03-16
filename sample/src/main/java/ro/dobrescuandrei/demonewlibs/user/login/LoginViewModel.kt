@@ -6,7 +6,7 @@ import ro.dobrescuandrei.demonewlibs.api.LoginRequest
 import ro.dobrescuandrei.demonewlibs.model.utils.OnLoggedInEvent
 import ro.dobrescuandrei.demonewlibs.model.utils.Preferences
 import ro.dobrescuandrei.mvvm.BaseViewModel
-import ro.dobrescuandrei.mvvm.utils.ForegroundEventBus
+import ro.dobrescuandrei.mvvm.eventbus.ForegroundEventBus
 
 class LoginViewModel : BaseViewModel()
 {
