@@ -78,37 +78,33 @@ abstract class BaseListActivity<VIEW_MODEL : BaseListViewModel<*, *>, ADAPTER : 
 
         emptyView.text = provideEmptyViewText()
 
-        viewModel.run {
-            firstPageItems.value=null
-            nextPageItems.value=null
-            isEmpty.value=false
+        viewModel.onCreate()
 
-            firstPageItems.observe(this@BaseListActivity) { items ->
-                if (items!=null)
-                {
-                    recyclerView.adapter?.setItems(items as List<Any>)
-                    recyclerView.scrollToPosition(0)
-                }
+        viewModel.firstPageItems.observe(this@BaseListActivity) { items ->
+            if (items!=null)
+            {
+                recyclerView.adapter?.setItems(items as List<Any>)
+                recyclerView.scrollToPosition(0)
             }
+        }
 
-            nextPageItems.observe(this@BaseListActivity) { items ->
-                if (items!=null)
-                {
-                    recyclerView.adapter?.addItems(items as List<Any>)
-                }
+        viewModel.nextPageItems.observe(this@BaseListActivity) { items ->
+            if (items!=null)
+            {
+                recyclerView.adapter?.addItems(items as List<Any>)
             }
+        }
 
-            isEmpty.observe(this@BaseListActivity) { isEmpty ->
-                if (isEmpty)
-                {
-                    emptyView.visibility=View.VISIBLE
-                    recyclerView.visibility=View.GONE
-                }
-                else
-                {
-                    emptyView.visibility=View.GONE
-                    recyclerView.visibility=View.VISIBLE
-                }
+        viewModel.isEmpty.observe(this@BaseListActivity) { isEmpty ->
+            if (isEmpty)
+            {
+                emptyView.visibility=View.VISIBLE
+                recyclerView.visibility=View.GONE
+            }
+            else
+            {
+                emptyView.visibility=View.GONE
+                recyclerView.visibility=View.VISIBLE
             }
         }
 

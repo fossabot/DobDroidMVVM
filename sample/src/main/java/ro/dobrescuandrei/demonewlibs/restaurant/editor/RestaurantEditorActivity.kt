@@ -81,13 +81,6 @@ class RestaurantEditorActivity : RestaurantEditorAdapter()
         showToast(R.string.restaurant_edited)
     }
 
-    @Subscribe
-    override fun onAddedOrEdited(event: OnEditorModel.AddedOrEditedEvent<Restaurant>)
-    {
-        BackgroundEventBus.post(RefreshRestaurantListCommand())
-        finish()
-    }
-
     //chooser demo zone
     fun setupChooserDemo()
     {

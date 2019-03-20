@@ -54,19 +54,16 @@ abstract class BaseActivity<VIEW_MODEL : BaseViewModel> : JBaseActivity<VIEW_MOD
 
         if (viewModelClass()!=BaseViewModel::class.java)
         {
-            viewModel.run {
-                error.value=0
-                loading.value=false
+            viewModel.onCreate()
 
-                error.observe(this@BaseActivity) { error ->
-                    if (error!=NO_VALUE_INT)
-                        showToast(error)
-                }
+            viewModel.error.observe(this@BaseActivity) { error ->
+                if (error!=NO_VALUE_INT)
+                    showToast(error)
+            }
 
-                loading.observe(this@BaseActivity) { loading ->
-                    if (loading) showLoadingDialog()
-                    else hideLoadingDialog()
-                }
+            viewModel.loading.observe(this@BaseActivity) { loading ->
+                if (loading) showLoadingDialog()
+                else hideLoadingDialog()
             }
         }
 

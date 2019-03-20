@@ -4,6 +4,7 @@ import androidx.lifecycle.MutableLiveData
 import ro.dobrescuandrei.mvvm.BaseViewModel
 import ro.dobrescuandrei.mvvm.R
 import ro.dobrescuandrei.mvvm.eventbus.BackgroundEventBus
+import ro.dobrescuandrei.mvvm.eventbus.ForegroundEventBus
 import ro.dobrescuandrei.mvvm.eventbus.OnEditorModel
 
 abstract class BaseEditorViewModel<MODEL : Any> : BaseViewModel
@@ -32,6 +33,18 @@ abstract class BaseEditorViewModel<MODEL : Any> : BaseViewModel
         this.model.value=model
     }
 
+    override fun onCreate()
+    {
+        super.onCreate()
+
+        if (addMode)
+            onCreateForAdd()
+        else onCreateForEdit()
+    }
+
+    open fun onCreateForAdd() {}
+    open fun onCreateForEdit() {}
+
     fun notifyChange(consumer : (MODEL) -> (Unit))
     {
         model.value?.let { model ->
@@ -56,10 +69,8 @@ abstract class BaseEditorViewModel<MODEL : Any> : BaseViewModel
                     else edit(model)
 
                     if (addMode())
-                        BackgroundEventBus.post(OnEditorModel.AddedEvent(model))
-                    else BackgroundEventBus.post(OnEditorModel.EditedEvent(model))
-
-                    BackgroundEventBus.post(OnEditorModel.AddedOrEditedEvent(model))
+                        ForegroundEventBus.post(OnEditorModel.AddedEvent(model))
+                    else ForegroundEventBus.post(OnEditorModel.EditedEvent(model))
                 }
                 catch (exception : Exception)
                 {

@@ -39,5 +39,4 @@ abstract class BaseEditorActivity<MODEL : Any, VIEW_MODEL : BaseEditorViewModel<
 
     abstract fun onAdded(event : OnEditorModel.AddedEvent<MODEL>)
     abstract fun onEdited(event : OnEditorModel.EditedEvent<MODEL>)
-    abstract fun onAddedOrEdited(event: OnEditorModel.AddedOrEditedEvent<MODEL>)
 }

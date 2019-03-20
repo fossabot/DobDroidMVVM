@@ -44,19 +44,16 @@ abstract class BaseFragment<VIEW_MODEL : BaseViewModel> : JBaseFragment<VIEW_MOD
 
         if (viewModelClass()!=BaseViewModel::class.java)
         {
-            viewModel.run {
-                error.value=0
-                loading.value=false
+            viewModel.onCreate()
 
-                error.observe(this@BaseFragment) { error ->
-                    if (error!=NO_VALUE_INT)
-                        (context as BaseActivity<*>).showToast(error)
-                }
+            viewModel.error.observe(this@BaseFragment) { error ->
+                if (error!=NO_VALUE_INT)
+                    (context as BaseActivity<*>).showToast(error)
+            }
 
-                loading.observe(this@BaseFragment) { loading ->
-                    if (loading) (context as BaseActivity<*>).showLoadingDialog()
-                    else (context as BaseActivity<*>).hideLoadingDialog()
-                }
+            viewModel.loading.observe(this@BaseFragment) { loading ->
+                if (loading) (context as BaseActivity<*>).showLoadingDialog()
+                else (context as BaseActivity<*>).hideLoadingDialog()
             }
         }
 

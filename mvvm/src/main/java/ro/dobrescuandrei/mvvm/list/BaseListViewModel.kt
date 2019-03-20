@@ -23,6 +23,15 @@ abstract class BaseListViewModel<MODEL, FILTER>
     abstract fun getItems() : List<MODEL>
     open fun limit() : Int = RESULTS_PER_PAGE
 
+    override fun onCreate()
+    {
+        super.onCreate()
+
+        firstPageItems.value=null
+        nextPageItems.value=null
+        isEmpty.value=false
+    }
+
     fun loadData()
     {
         doneLoadingPages=false
