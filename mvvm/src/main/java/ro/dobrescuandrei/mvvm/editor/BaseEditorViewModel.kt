@@ -5,6 +5,7 @@ import ro.dobrescuandrei.mvvm.BaseViewModel
 import ro.dobrescuandrei.mvvm.R
 import ro.dobrescuandrei.mvvm.eventbus.ForegroundEventBus
 import ro.dobrescuandrei.mvvm.eventbus.OnEditorModel
+import kotlin.properties.ReadWriteProperty
 
 abstract class BaseEditorViewModel<MODEL : Any> : BaseViewModel
 {
@@ -55,6 +56,11 @@ abstract class BaseEditorViewModel<MODEL : Any> : BaseViewModel
             }
         }
     }
+
+    fun <FIELD_TYPE, MODEL : Any, VIEW_MODEL : BaseEditorViewModel<MODEL>>
+        observable(viewModelChangeNotifyier : (MODEL, FIELD_TYPE) -> (Unit))
+            : ReadWriteProperty<VIEW_MODEL, FIELD_TYPE> =
+                EditorViewModelChangeDelegate(viewModelChangeNotifyier)
 
     fun onSaveButtonClicked()
     {
