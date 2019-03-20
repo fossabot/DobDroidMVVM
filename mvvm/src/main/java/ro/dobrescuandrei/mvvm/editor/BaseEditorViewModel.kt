@@ -3,7 +3,6 @@ package ro.dobrescuandrei.mvvm.editor
 import androidx.lifecycle.MutableLiveData
 import ro.dobrescuandrei.mvvm.BaseViewModel
 import ro.dobrescuandrei.mvvm.R
-import ro.dobrescuandrei.mvvm.eventbus.BackgroundEventBus
 import ro.dobrescuandrei.mvvm.eventbus.ForegroundEventBus
 import ro.dobrescuandrei.mvvm.eventbus.OnEditorModel
 
@@ -39,11 +38,11 @@ abstract class BaseEditorViewModel<MODEL : Any> : BaseViewModel
 
         if (addMode)
             onCreateForAdd()
-        else onCreateForEdit()
+        else onCreateForEdit(model.value!!)
     }
 
     open fun onCreateForAdd() {}
-    open fun onCreateForEdit() {}
+    open fun onCreateForEdit(model : MODEL) {}
 
     fun notifyChange(consumer : (MODEL) -> (Unit))
     {

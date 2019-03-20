@@ -8,7 +8,6 @@ import ro.dobrescuandrei.demonewlibs.R
 import ro.dobrescuandrei.demonewlibs.model.Restaurant
 import ro.dobrescuandrei.demonewlibs.model.utils.OnRestaurantAddedEvent
 import ro.dobrescuandrei.demonewlibs.model.utils.OnRestaurantChoosedEvent
-import ro.dobrescuandrei.demonewlibs.model.utils.RefreshRestaurantListCommand
 import ro.dobrescuandrei.demonewlibs.router.ActivityRouter
 import ro.dobrescuandrei.demonewlibs.router.ShowDialog
 import ro.dobrescuandrei.mvvm.eventbus.BackgroundEventBus

@@ -1,6 +1,5 @@
 package ro.dobrescuandrei.mvvm.list
 
-import android.annotation.SuppressLint
 import android.os.Bundle
 import android.text.TextUtils
 import android.view.LayoutInflater
@@ -16,10 +15,10 @@ import ro.andreidobrescu.declarativeadapterkt.BaseDeclarativeAdapter
 import ro.andreidobrescu.declarativeadapterkt.view.HeaderView
 import ro.dobrescuandrei.mvvm.BaseFragment
 import ro.dobrescuandrei.mvvm.R
-import ro.dobrescuandrei.mvvm.list.item_decoration.FABDividerItemDecoration
-import ro.dobrescuandrei.mvvm.list.item_decoration.StickyHeadersItemDecoration
 import ro.dobrescuandrei.mvvm.eventbus.OnKeyboardClosedEvent
 import ro.dobrescuandrei.mvvm.eventbus.OnKeyboardOpenedEvent
+import ro.dobrescuandrei.mvvm.list.item_decoration.FABDividerItemDecoration
+import ro.dobrescuandrei.mvvm.list.item_decoration.StickyHeadersItemDecoration
 
 abstract class BaseListFragment<VIEW_MODEL : BaseListViewModel<*, *>, ADAPTER : BaseDeclarativeAdapter> : BaseFragment<VIEW_MODEL>()
 {
