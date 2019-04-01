@@ -72,12 +72,14 @@ class RestaurantEditorActivity : RestaurantEditorAdapter()
     {
         BackgroundEventBus.post(OnRestaurantAddedEvent(restaurant = event.model))
         showToast(R.string.restaurant_added)
+        finish()
     }
 
     @Subscribe
     override fun onEdited(event : OnEditorModel.EditedEvent<Restaurant>)
     {
         showToast(R.string.restaurant_edited)
+        finish()
     }
 
     //chooser demo zone

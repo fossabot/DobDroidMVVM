@@ -28,14 +28,14 @@ android {
 
 dependencies {
     //architecture
-//    implementation 'com.github.andob:DobDroidMVVM:1.0.4'
-    implementation project(":mvvm")
+    implementation 'com.github.andob:DobDroidMVVM:1.0.6'
+//    implementation project(":mvvm")
 
     //preferences
     implementation 'com.chibatching.kotpref:kotpref:2.6.0'
 
     //retrofit
-    implementation "org.jetbrains.kotlinx:kotlinx-serialization-runtime:0.9.1"
+    implementation "org.jetbrains.kotlinx:kotlinx-serialization-runtime:0.10.0"
 
     //event bus
     implementation 'org.greenrobot:eventbus:3.1.1'
