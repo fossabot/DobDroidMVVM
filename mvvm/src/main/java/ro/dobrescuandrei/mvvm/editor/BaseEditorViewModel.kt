@@ -1,6 +1,11 @@
 package ro.dobrescuandrei.mvvm.editor
 
 import androidx.lifecycle.MutableLiveData
+import io.reactivex.Observable
+import io.reactivex.Observer
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.disposables.Disposable
+import io.reactivex.schedulers.Schedulers
 import ro.dobrescuandrei.mvvm.BaseViewModel
 import ro.dobrescuandrei.mvvm.R
 import ro.dobrescuandrei.mvvm.eventbus.ForegroundEventBus
@@ -23,8 +28,8 @@ abstract class BaseEditorViewModel<MODEL : Any> : BaseViewModel
     open fun  addMode() = addMode
     open fun editMode() = !addMode
 
-    abstract fun add (model : MODEL)
-    abstract fun edit(model : MODEL)
+    abstract fun add (model : MODEL) : Observable<Unit>
+    abstract fun edit(model : MODEL) : Observable<Unit>
 
     open fun provideErrorMessage(ex : Throwable? = null) = R.string.you_have_errors_please_correct
 
@@ -66,21 +71,34 @@ abstract class BaseEditorViewModel<MODEL : Any> : BaseViewModel
     {
         if (isValid)
         {
-            model.value?.let { model ->
-                try
-                {
-                    if (addMode())
-                        add(model)
-                    else edit(model)
+            showLoading()
 
-                    if (addMode())
-                        ForegroundEventBus.post(OnEditorModel.AddedEvent(model))
-                    else ForegroundEventBus.post(OnEditorModel.EditedEvent(model))
-                }
-                catch (exception : Exception)
-                {
-                    showError(provideErrorMessage(exception))
-                }
+            model.value?.let { model ->
+                (if (addMode())
+                    add(model)
+                else edit(model))
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(object : Observer<Unit>
+                    {
+                        override fun onSubscribe(d: Disposable) {}
+                        override fun onComplete() {}
+
+                        override fun onNext(result: Unit)
+                        {
+                            hideLoading()
+
+                            if (addMode())
+                                ForegroundEventBus.post(OnEditorModel.AddedEvent(model))
+                            else ForegroundEventBus.post(OnEditorModel.EditedEvent(model))
+                        }
+
+                        override fun onError(exception: Throwable)
+                        {
+                            hideLoading()
+                            showError(provideErrorMessage(exception))
+                        }
+                    })
             }
         }
         else
