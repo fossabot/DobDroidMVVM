@@ -14,13 +14,24 @@ import ro.dobrescuandrei.mvvm.BaseActivity
 import ro.dobrescuandrei.mvvm.R
 import ro.dobrescuandrei.mvvm.list.item_decoration.FABDividerItemDecoration
 import ro.dobrescuandrei.mvvm.list.item_decoration.StickyHeadersItemDecoration
+import ro.dobrescuandrei.mvvm.utils.ARG_INITIAL_FILTER
+import ro.dobrescuandrei.mvvm.utils.ARG_INITIAL_SEARCH
 
-abstract class BaseListActivity<VIEW_MODEL : BaseListViewModel<*, *>, ADAPTER : BaseDeclarativeAdapter> : BaseActivity<VIEW_MODEL>()
+abstract class BaseListActivity<VIEW_MODEL : BaseListViewModel<*, FILTER>, ADAPTER : BaseDeclarativeAdapter, FILTER> : BaseActivity<VIEW_MODEL>()
 {
     lateinit var recyclerView : RecyclerViewMod
     lateinit var emptyView : TextView
     var addButton : FloatingActionButton? = null
     var stickyHeadersItemDecoration : StickyHeadersItemDecoration? = null
+
+    override fun loadDataFromIntent()
+    {
+        val initialFilter=intent?.getSerializableExtra(ARG_INITIAL_FILTER) as? FILTER
+        if (initialFilter!=null) viewModel.filter=initialFilter
+
+        val initialSearch=intent?.getStringExtra(ARG_INITIAL_SEARCH)
+        if (initialSearch!=null) viewModel.search=initialSearch
+    }
 
     override fun onCreate(savedInstanceState: Bundle?)
     {

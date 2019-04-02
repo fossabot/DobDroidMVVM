@@ -9,7 +9,7 @@ abstract class BaseContainerActivity<MODEL> : BaseActivity.WithoutViewModel()
 
     override fun loadDataFromIntent()
     {
-        chooseMode=intent?.extras?.getBoolean(ARG_CHOOSE_MODE)?:false
+        chooseMode=intent?.getBooleanExtra(ARG_CHOOSE_MODE, false)?:false
     }
 
     open fun onItemChoosed(item : MODEL)

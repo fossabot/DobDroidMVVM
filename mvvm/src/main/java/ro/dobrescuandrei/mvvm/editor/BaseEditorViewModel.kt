@@ -42,13 +42,10 @@ abstract class BaseEditorViewModel<MODEL : Any> : BaseViewModel
     {
         super.onCreate()
 
-        if (addMode)
-            onCreateForAdd()
-        else onCreateForEdit(model.value!!)
+        onCreate(model.value!!)
     }
 
-    open fun onCreateForAdd() {}
-    open fun onCreateForEdit(model : MODEL) {}
+    open fun onCreate(model : MODEL) {}
 
     fun notifyChange(consumer : (MODEL) -> (Unit))
     {

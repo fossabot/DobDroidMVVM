@@ -8,7 +8,7 @@ import androidx.viewpager.widget.ViewPager
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import ro.dobrescuandrei.mvvm.BaseFragment
 import ro.dobrescuandrei.mvvm.R
-import ro.dobrescuandrei.mvvm.utils.SimpleFragmentPagerAdapter
+import ro.dobrescuandrei.mvvm.utils.*
 import ro.dobrescuandrei.utils.setupWithViewPager
 
 abstract class BaseFragmentsContainerActivity<MODEL> : BaseContainerActivity<MODEL>()
@@ -26,14 +26,22 @@ abstract class BaseFragmentsContainerActivity<MODEL> : BaseContainerActivity<MOD
         setSupportActionBar(Toolbar(this))
 
         val initialTab=provideInitialTab()
+        val fragments=provideFragments()
 
         viewPager=findViewById<ViewPager>(R.id.viewPager)
         viewPager.offscreenPageLimit=100
         viewPager.currentItem=initialTab
         viewPager.adapter= SimpleFragmentPagerAdapter(
             fragmentManager = supportFragmentManager,
-            fragments = provideFragments()
-        )
+            fragments = fragments)
+
+        for (fragment in fragments)
+        {
+            val fragmentArguments=fragment.arguments?:Bundle()
+            fragmentArguments.setFilter(intent?.getSerializableExtra(ARG_INITIAL_FILTER))
+            fragmentArguments.setSearch(intent?.getStringExtra(ARG_INITIAL_SEARCH))
+            fragment.arguments=fragmentArguments
+        }
 
         val bottomNavigationView=findViewById<BottomNavigationView>(R.id.bottomNavigationView)
         bottomNavigationView.inflateMenu(provideBottomNavigationMenu())

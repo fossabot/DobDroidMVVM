@@ -7,5 +7,8 @@ const val NO_VALUE_LONG   = 0L
 
 const val ARG_MODEL = "MODEL"
 const val ARG_CHOOSE_MODE = "CHOOSE_MODE"
+const val ARG_ADD_MODE = "ADD_MODE"
+const val ARG_INITIAL_FILTER = "INITIAL_FILTER"
+const val ARG_INITIAL_SEARCH = "INITIAL_SEARCH"
 
 const val RESULTS_PER_PAGE = 100

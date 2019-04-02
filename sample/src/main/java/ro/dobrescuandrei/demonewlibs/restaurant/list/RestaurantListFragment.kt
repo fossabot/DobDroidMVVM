@@ -8,6 +8,7 @@ import org.greenrobot.eventbus.Subscribe
 import ro.andreidobrescu.declarativeadapterkt.SimpleDeclarativeAdapter
 import ro.dobrescuandrei.demonewlibs.R
 import ro.dobrescuandrei.demonewlibs.model.Restaurant
+import ro.dobrescuandrei.demonewlibs.model.RestaurantFilter
 import ro.dobrescuandrei.demonewlibs.model.utils.RefreshRestaurantListCommand
 import ro.dobrescuandrei.demonewlibs.restaurant.list.cells.RestaurantCellView
 import ro.dobrescuandrei.demonewlibs.router.ActivityRouter
@@ -17,7 +18,7 @@ import ro.dobrescuandrei.utils.set
 import ro.dobrescuandrei.utils.setMenu
 import ro.dobrescuandrei.utils.setupBackIcon
 
-class RestaurantListFragment : BaseListFragment<RestaurantListViewModel, SimpleDeclarativeAdapter<Restaurant>>()
+class RestaurantListFragment : BaseListFragment<RestaurantListViewModel, SimpleDeclarativeAdapter<Restaurant>, RestaurantFilter>()
 {
     override fun provideAdapter() = SimpleDeclarativeAdapter { RestaurantCellView(it) }
     override fun provideEmptyViewText() = getString(R.string.no_restaurants)
@@ -34,8 +35,9 @@ class RestaurantListFragment : BaseListFragment<RestaurantListViewModel, SimpleD
             ShowDialog.withList(context = context!!,
                 title = R.string.choose_rating,
                 onClick = { index, value ->
-                    viewModel.filter.rating=value
-                    viewModel.loadData()
+                    viewModel.notifyFilterChange { filter ->
+                        filter.rating=value
+                    }
                 },
                 values = listOf(1,2,3,4,5))
         }
@@ -44,8 +46,9 @@ class RestaurantListFragment : BaseListFragment<RestaurantListViewModel, SimpleD
             ShowDialog.withList(context = context!!,
                 title = R.string.choose_type,
                 onClick = { index, value ->
-                    viewModel.filter.type=index+1
-                    viewModel.loadData()
+                    viewModel.notifyFilterChange { filter ->
+                        filter.type=index+1
+                    }
                 },
                 values = listOf(
                     getString(R.string.normal),

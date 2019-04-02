@@ -5,6 +5,7 @@ import android.widget.Button
 import ro.dobrescuandrei.mvvm.BaseActivity
 import ro.dobrescuandrei.mvvm.R
 import ro.dobrescuandrei.mvvm.eventbus.OnEditorModel
+import ro.dobrescuandrei.mvvm.utils.ARG_ADD_MODE
 import ro.dobrescuandrei.mvvm.utils.ARG_MODEL
 
 abstract class BaseEditorActivity<MODEL : Any, VIEW_MODEL : BaseEditorViewModel<MODEL>> : BaseActivity<VIEW_MODEL>()
@@ -13,9 +14,10 @@ abstract class BaseEditorActivity<MODEL : Any, VIEW_MODEL : BaseEditorViewModel<
 
     override fun loadDataFromIntent()
     {
-        val model=intent?.extras?.getSerializable(ARG_MODEL) as? MODEL
+        val model=intent?.getSerializableExtra(ARG_MODEL) as? MODEL
         if (model!=null) viewModel.model.value=model
-        viewModel.addMode=model==null
+
+        viewModel.addMode=intent?.getBooleanExtra(ARG_ADD_MODE, true)?:true
     }
 
     override fun onCreate(savedInstanceState: Bundle?)

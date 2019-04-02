@@ -19,13 +19,24 @@ import ro.dobrescuandrei.mvvm.eventbus.OnKeyboardClosedEvent
 import ro.dobrescuandrei.mvvm.eventbus.OnKeyboardOpenedEvent
 import ro.dobrescuandrei.mvvm.list.item_decoration.FABDividerItemDecoration
 import ro.dobrescuandrei.mvvm.list.item_decoration.StickyHeadersItemDecoration
+import ro.dobrescuandrei.mvvm.utils.ARG_INITIAL_FILTER
+import ro.dobrescuandrei.mvvm.utils.ARG_INITIAL_SEARCH
 
-abstract class BaseListFragment<VIEW_MODEL : BaseListViewModel<*, *>, ADAPTER : BaseDeclarativeAdapter> : BaseFragment<VIEW_MODEL>()
+abstract class BaseListFragment<VIEW_MODEL : BaseListViewModel<*, FILTER>, ADAPTER : BaseDeclarativeAdapter, FILTER> : BaseFragment<VIEW_MODEL>()
 {
     lateinit var recyclerView : RecyclerViewMod
     lateinit var emptyView : TextView
     var addButton : FloatingActionButton? = null
     var stickyHeadersItemDecoration : StickyHeadersItemDecoration? = null
+
+    override fun loadDataFromArguments()
+    {
+        val initialFilter=arguments?.getSerializable(ARG_INITIAL_FILTER) as? FILTER
+        if (initialFilter!=null) viewModel.filter=initialFilter
+
+        val initialSearch=arguments?.getString(ARG_INITIAL_SEARCH)
+        if (initialSearch!=null) viewModel.search=initialSearch
+    }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View?
     {

@@ -86,4 +86,10 @@ abstract class BaseListViewModel<MODEL, FILTER>
                     offset+=limit()
             })
     }
+
+    fun notifyFilterChange(consumer : (FILTER) -> (Unit))
+    {
+        consumer(filter)
+        loadData()
+    }
 }
