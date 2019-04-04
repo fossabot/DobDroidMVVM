@@ -51,7 +51,7 @@ dependencies {
     api 'com.github.andob:LocaleChanger:0.9.3'
 
     //declarative adapter
-    api ('com.github.andob:DeclarativeAdapter-kt:1.0.1') {
+    api ('com.github.andob:DeclarativeAdapter-kt:1.0.7') {
         exclude group: 'com.android.support'
         exclude group: 'org.jetbrains.kotlin'
     }

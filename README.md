@@ -24,7 +24,7 @@ allprojects {
 ```
 ```
 dependencies {
-    api 'com.github.andob:DobDroidMVVM:1.0.7'
+    api 'com.github.andob:DobDroidMVVM:1.0.8'
 }
 ```
 
