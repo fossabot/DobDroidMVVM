@@ -3,34 +3,26 @@ package ro.dobrescuandrei.mvvm.eventbus
 import android.app.Activity
 import org.greenrobot.eventbus.EventBus
 
-open class EventBusFacade
-{
-    private val greenRobotEventBus = EventBus()
+object ForegroundEventBus : EventBus()
 
+object BackgroundEventBus : EventBus()
+{
     @PublishedApi
     internal val activityResultEventBus = ActivityResultEventBus()
 
-    fun register(target : Any)
+    override fun unregister(subscriber: Any?)
     {
-        try {greenRobotEventBus.register(target)}
-        catch (ex : Exception) {}
+        super.unregister(subscriber)
+
+        if (subscriber!=null&&subscriber is Activity)
+            activityResultEventBus.unregister(subscriber)
     }
 
-    fun unregister(target : Any)
+    override fun post(event: Any?)
     {
-        if (target is Activity)
-            activityResultEventBus.unregister(target)
+        super.post(event)
 
-        try {greenRobotEventBus.unregister(target)}
-        catch (ex : Exception) {}
-    }
-
-    fun post(event : Any)
-    {
-        activityResultEventBus.post(event)
-        greenRobotEventBus.post(event)
+        if (event!=null)
+            activityResultEventBus.post(event)
     }
 }
-
-object BackgroundEventBus : EventBusFacade()
-object ForegroundEventBus : EventBusFacade()

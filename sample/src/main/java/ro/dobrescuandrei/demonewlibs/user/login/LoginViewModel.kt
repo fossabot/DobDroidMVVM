@@ -26,7 +26,7 @@ class LoginViewModel : BaseViewModel()
                 LoginRequest(username, password).execute()
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
-                    .subscribeBy(onNext = { user ->
+                    .subscribeBy(onSuccess = { user ->
                         hideLoading()
 
                         Preferences.userId=user.id

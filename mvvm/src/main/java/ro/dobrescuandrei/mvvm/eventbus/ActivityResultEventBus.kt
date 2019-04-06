@@ -3,7 +3,7 @@ package ro.dobrescuandrei.mvvm.eventbus
 import android.app.Activity
 
 class ActivityResultTypedEventListener<EVENT>
-(
+    (
     val eventClass : Class<EVENT>,
     val eventConsumer : (EVENT) -> (Unit)
 )
@@ -46,8 +46,5 @@ class ActivityResultEventBus
 inline fun <reified EVENT> Activity.OnActivityResult(noinline eventListener : (EVENT) -> (Unit))
 {
     BackgroundEventBus.activityResultEventBus.register(activity = this,
-        eventListener = ActivityResultTypedEventListener(EVENT::class.java, eventListener))
-
-    ForegroundEventBus.activityResultEventBus.register(activity = this,
         eventListener = ActivityResultTypedEventListener(EVENT::class.java, eventListener))
 }

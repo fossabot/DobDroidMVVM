@@ -1,7 +1,7 @@
 package ro.dobrescuandrei.mvvm.chooser
 
 import ro.dobrescuandrei.mvvm.BaseActivity
-import ro.dobrescuandrei.mvvm.utils.ARG_CHOOSE_MODE
+import ro.dobrescuandrei.mvvm.navigation.ARG_CHOOSE_MODE
 
 abstract class BaseContainerActivity<MODEL> : BaseActivity.WithoutViewModel()
 {

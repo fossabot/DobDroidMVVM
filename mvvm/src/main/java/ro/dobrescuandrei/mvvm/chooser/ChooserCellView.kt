@@ -1,10 +1,9 @@
-package ro.dobrescuandrei.mvvm.utils
+package ro.dobrescuandrei.mvvm.chooser
 
 import android.content.Context
 import android.util.AttributeSet
 import android.view.View
 import ro.andreidobrescu.declarativeadapterkt.view.CellView
-import ro.dobrescuandrei.mvvm.chooser.BaseContainerActivity
 
 abstract class ChooserCellView<MODEL> : CellView<MODEL>
 {

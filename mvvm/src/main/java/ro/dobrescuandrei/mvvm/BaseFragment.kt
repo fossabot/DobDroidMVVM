@@ -13,7 +13,6 @@ import ro.dobrescuandrei.mvvm.eventbus.BackgroundEventBus
 import ro.dobrescuandrei.mvvm.eventbus.ForegroundEventBus
 import ro.dobrescuandrei.mvvm.eventbus.OnKeyboardClosedEvent
 import ro.dobrescuandrei.mvvm.eventbus.OnKeyboardOpenedEvent
-import ro.dobrescuandrei.mvvm.utils.NO_VALUE_INT
 import ro.dobrescuandrei.utils.onCreateOptionsMenuFromFragment
 import ro.dobrescuandrei.utils.onOptionsItemSelected
 
@@ -26,9 +25,17 @@ abstract class BaseFragment<VIEW_MODEL : BaseViewModel> : JBaseFragment<VIEW_MOD
 
     fun viewModel() = ViewModelProviders.of(this)[viewModelClass()]
 
-    fun <T> LiveData<T>.observe(owner : LifecycleOwner, observer : (T) -> (Unit))
+    fun <T : Any?> LiveData<T>.observeNullable(owner : LifecycleOwner, observer : (T?) -> (Unit))
     {
         observe(owner, Observer(observer))
+    }
+
+    fun <T : Any> LiveData<T>.observe(owner : LifecycleOwner, observer : (T) -> (Unit))
+    {
+        observe(owner, Observer<T?> { value ->
+            if (value!=null)
+                observer(value)
+        })
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View?
@@ -46,12 +53,14 @@ abstract class BaseFragment<VIEW_MODEL : BaseViewModel> : JBaseFragment<VIEW_MOD
         {
             viewModel.onCreate()
 
-            viewModel.error.observe(this@BaseFragment) { error ->
-                if (error!=NO_VALUE_INT)
-                    (context as BaseActivity<*>).showToast(error)
+            viewModel.errorLiveData.observe(this@BaseFragment) { error ->
+                if (error.message!=null)
+                    (context as BaseActivity<*>).showToast(error.message)
+                else if (error.messageStringResource!=null)
+                    (context as BaseActivity<*>).showToast(getString(error.messageStringResource))
             }
 
-            viewModel.loading.observe(this@BaseFragment) { loading ->
+            viewModel.loadingLiveData.observe(this@BaseFragment) { loading ->
                 if (loading) (context as BaseActivity<*>).showLoadingDialog()
                 else (context as BaseActivity<*>).hideLoadingDialog()
             }

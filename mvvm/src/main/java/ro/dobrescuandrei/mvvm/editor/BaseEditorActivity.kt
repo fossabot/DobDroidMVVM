@@ -5,8 +5,8 @@ import android.widget.Button
 import ro.dobrescuandrei.mvvm.BaseActivity
 import ro.dobrescuandrei.mvvm.R
 import ro.dobrescuandrei.mvvm.eventbus.OnEditorModel
-import ro.dobrescuandrei.mvvm.utils.ARG_ADD_MODE
-import ro.dobrescuandrei.mvvm.utils.ARG_MODEL
+import ro.dobrescuandrei.mvvm.navigation.ARG_ADD_MODE
+import ro.dobrescuandrei.mvvm.navigation.ARG_MODEL
 
 abstract class BaseEditorActivity<MODEL : Any, VIEW_MODEL : BaseEditorViewModel<MODEL>> : BaseActivity<VIEW_MODEL>()
 {
@@ -15,7 +15,7 @@ abstract class BaseEditorActivity<MODEL : Any, VIEW_MODEL : BaseEditorViewModel<
     override fun loadDataFromIntent()
     {
         val model=intent?.getSerializableExtra(ARG_MODEL) as? MODEL
-        if (model!=null) viewModel.model.value=model
+        if (model!=null) viewModel.modelLiveData.value=model
 
         viewModel.addMode=intent?.getBooleanExtra(ARG_ADD_MODE, true)?:true
     }
@@ -27,13 +27,10 @@ abstract class BaseEditorActivity<MODEL : Any, VIEW_MODEL : BaseEditorViewModel<
         saveButton=findViewById(R.id.saveButton)
         saveButton.setOnClickListener { viewModel.onSaveButtonClicked() }
 
-        viewModel.model.observe(this) { model ->
-            if (model!=null)
-            {
-                viewModel.shouldNotifyModelLiveDataOnPropertyChange=false
-                show(model)
-                viewModel.shouldNotifyModelLiveDataOnPropertyChange=true
-            }
+        viewModel.modelLiveData.observe(this) { model ->
+            viewModel.shouldNotifyModelLiveDataOnPropertyChange=false
+            show(model)
+            viewModel.shouldNotifyModelLiveDataOnPropertyChange=true
         }
     }
 

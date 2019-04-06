@@ -6,7 +6,6 @@ import kotlinx.android.synthetic.main.activity_restaurant_editor.*
 import ro.dobrescuandrei.demonewlibs.R
 import ro.dobrescuandrei.demonewlibs.model.Restaurant
 import ro.dobrescuandrei.mvvm.editor.BaseEditorActivity
-import ro.dobrescuandrei.mvvm.utils.NO_VALUE_INT
 
 abstract class RestaurantEditorAdapter : BaseEditorActivity<Restaurant, RestaurantEditorViewModel>()
 {
@@ -17,7 +16,7 @@ abstract class RestaurantEditorAdapter : BaseEditorActivity<Restaurant, Restaura
     {
         viewModel.isValid=true
 
-        if (restaurant.type== NO_VALUE_INT)
+        if (restaurant.type==null)
         {
             typeErrorLabel.visibility=View.VISIBLE
             typeLabel.visibility=View.GONE

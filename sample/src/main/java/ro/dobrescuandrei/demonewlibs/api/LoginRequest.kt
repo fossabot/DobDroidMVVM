@@ -1,15 +1,15 @@
 package ro.dobrescuandrei.demonewlibs.api
 
-import io.reactivex.Observable
+import io.reactivex.Single
 import ro.dobrescuandrei.demonewlibs.model.User
 
 class LoginRequest
 (
     val username : String,
     val password : String
-) : BaseRequest<User>()
+) : BaseRequest<Single<User>>()
 {
-    override fun execute() = Observable.fromCallable {
+    override fun execute() = Single.fromCallable {
         Thread.sleep(1000)
         return@fromCallable User(name = "asdf")
     }

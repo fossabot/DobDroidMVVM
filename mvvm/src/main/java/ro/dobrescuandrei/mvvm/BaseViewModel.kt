@@ -2,30 +2,41 @@ package ro.dobrescuandrei.mvvm
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import ro.dobrescuandrei.mvvm.utils.ErrorHolder
 
 abstract class BaseViewModel : ViewModel()
 {
-    internal val error   : MutableLiveData<Int>     by lazy { MutableLiveData<Int>() }
-    internal val loading : MutableLiveData<Boolean> by lazy { MutableLiveData<Boolean>() }
+    val errorLiveData : MutableLiveData<ErrorHolder> by lazy { MutableLiveData<ErrorHolder>() }
+    val loadingLiveData : MutableLiveData<Boolean> by lazy { MutableLiveData<Boolean>() }
 
     open fun onCreate()
     {
-        error.value=0
-        loading.value=false
+        errorLiveData.value=null
+        loadingLiveData.value=false
     }
 
     fun showLoading()
     {
-        loading.value=true
+        loadingLiveData.value=true
     }
 
     fun hideLoading()
     {
-        loading.value=false
+        loadingLiveData.value=false
     }
 
     fun showError(error : Int)
     {
-        this.error.value=error
+        this.errorLiveData.value= ErrorHolder(messageStringResource = error)
+    }
+
+    fun showError(error : String)
+    {
+        this.errorLiveData.value= ErrorHolder(message = error)
+    }
+
+    fun showError(error : Throwable)
+    {
+        this.errorLiveData.value= ErrorHolder(exception = error)
     }
 }

@@ -1,21 +1,26 @@
 package ro.dobrescuandrei.mvvm.editor
 
-import androidx.lifecycle.MutableLiveData
-import io.reactivex.Observable
-import io.reactivex.Observer
+import android.annotation.SuppressLint
+import io.reactivex.Completable
 import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.disposables.Disposable
+import io.reactivex.rxkotlin.subscribeBy
 import io.reactivex.schedulers.Schedulers
 import ro.dobrescuandrei.mvvm.BaseViewModel
 import ro.dobrescuandrei.mvvm.R
 import ro.dobrescuandrei.mvvm.eventbus.ForegroundEventBus
 import ro.dobrescuandrei.mvvm.eventbus.OnEditorModel
+import ro.dobrescuandrei.mvvm.utils.NonNullableLiveData
 import kotlin.properties.ReadWriteProperty
 
 abstract class BaseEditorViewModel<MODEL : Any> : BaseViewModel
 {
     @PublishedApi
-    internal val model : MutableLiveData<MODEL> by lazy { MutableLiveData<MODEL>() }
+    internal val modelLiveData : NonNullableLiveData<MODEL>
+
+    constructor(model : MODEL)
+    {
+        this.modelLiveData=NonNullableLiveData(initialValue = model)
+    }
 
     @PublishedApi
     internal var shouldNotifyModelLiveDataOnPropertyChange : Boolean = true
@@ -28,34 +33,27 @@ abstract class BaseEditorViewModel<MODEL : Any> : BaseViewModel
     open fun  addMode() = addMode
     open fun editMode() = !addMode
 
-    abstract fun add (model : MODEL) : Observable<Unit>
-    abstract fun edit(model : MODEL) : Observable<Unit>
+    abstract fun add (model : MODEL) : Completable
+    abstract fun edit(model : MODEL) : Completable
 
     open fun provideErrorMessage(ex : Throwable? = null) = R.string.you_have_errors_please_correct
-
-    constructor(model : MODEL)
-    {
-        this.model.value=model
-    }
 
     override fun onCreate()
     {
         super.onCreate()
 
-        onCreate(model.value!!)
+        onCreate(modelLiveData.value)
     }
 
     open fun onCreate(model : MODEL) {}
 
     fun notifyChange(consumer : (MODEL) -> (Unit))
     {
-        model.value?.let { model ->
-            consumer(model)
+        consumer(modelLiveData.value)
 
-            if (shouldNotifyModelLiveDataOnPropertyChange)
-            {
-                this.model.value=model
-            }
+        if (shouldNotifyModelLiveDataOnPropertyChange)
+        {
+            modelLiveData.value=modelLiveData.value
         }
     }
 
@@ -64,39 +62,28 @@ abstract class BaseEditorViewModel<MODEL : Any> : BaseViewModel
             : ReadWriteProperty<VIEW_MODEL, FIELD_TYPE> =
                 EditorViewModelChangeDelegate(viewModelChangeNotifyier)
 
+    @SuppressLint("CheckResult")
     fun onSaveButtonClicked()
     {
         if (isValid)
         {
             showLoading()
 
-            model.value?.let { model ->
-                (if (addMode())
-                    add(model)
-                else edit(model))
-                    .subscribeOn(Schedulers.io())
-                    .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe(object : Observer<Unit>
-                    {
-                        override fun onSubscribe(d: Disposable) {}
-                        override fun onComplete() {}
+            (if (addMode())
+                add(modelLiveData.value)
+            else edit(modelLiveData.value))
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeBy(onError = { exception ->
+                    hideLoading()
+                    showError(provideErrorMessage(exception))
+                }, onComplete = {
+                    hideLoading()
 
-                        override fun onNext(result: Unit)
-                        {
-                            hideLoading()
-
-                            if (addMode())
-                                ForegroundEventBus.post(OnEditorModel.AddedEvent(model))
-                            else ForegroundEventBus.post(OnEditorModel.EditedEvent(model))
-                        }
-
-                        override fun onError(exception: Throwable)
-                        {
-                            hideLoading()
-                            showError(provideErrorMessage(exception))
-                        }
-                    })
-            }
+                    if (addMode())
+                        ForegroundEventBus.post(OnEditorModel.AddedEvent(modelLiveData.value))
+                    else ForegroundEventBus.post(OnEditorModel.EditedEvent(modelLiveData.value))
+                })
         }
         else
         {

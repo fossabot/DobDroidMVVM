@@ -1,7 +1,6 @@
-package ro.dobrescuandrei.mvvm.utils
+package ro.dobrescuandrei.mvvm.navigation
 
 import android.content.Intent
-import android.os.Bundle
 import java.io.Serializable
 
 fun <MODEL : Serializable> Intent.setModel(model : MODEL)
@@ -26,10 +25,5 @@ fun Intent.setEditMode()
 
 fun <FILTER : Serializable> Intent.setFilter(filter : FILTER)
 {
-    putExtra(ARG_INITIAL_FILTER, filter)
-}
-
-fun Intent.setSearch(search : String)
-{
-    putExtra(ARG_INITIAL_SEARCH, search)
+    putExtra(ARG_FILTER, filter)
 }

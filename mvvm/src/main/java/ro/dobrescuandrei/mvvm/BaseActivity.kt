@@ -20,7 +20,6 @@ import ro.dobrescuandrei.mvvm.eventbus.BackgroundEventBus
 import ro.dobrescuandrei.mvvm.eventbus.ForegroundEventBus
 import ro.dobrescuandrei.mvvm.eventbus.OnKeyboardClosedEvent
 import ro.dobrescuandrei.mvvm.eventbus.OnKeyboardOpenedEvent
-import ro.dobrescuandrei.mvvm.utils.NO_VALUE_INT
 import ro.dobrescuandrei.utils.Keyboard
 import ro.dobrescuandrei.utils.onCreateOptionsMenu
 import ro.dobrescuandrei.utils.onOptionsItemSelected
@@ -34,9 +33,17 @@ abstract class BaseActivity<VIEW_MODEL : BaseViewModel> : JBaseActivity<VIEW_MOD
     abstract fun layout() : Int
     open fun loadDataFromIntent() {}
 
-    fun <T> LiveData<T>.observe(owner : LifecycleOwner, observer : (T) -> (Unit))
+    fun <T : Any?> LiveData<T>.observeNullable(owner : LifecycleOwner, observer : (T?) -> (Unit))
     {
         observe(owner, Observer(observer))
+    }
+
+    fun <T : Any> LiveData<T>.observe(owner : LifecycleOwner, observer : (T) -> (Unit))
+    {
+        observe(owner, Observer<T?> { value ->
+            if (value!=null)
+                observer(value)
+        })
     }
 
     override fun onCreate(savedInstanceState: Bundle?)
@@ -56,12 +63,14 @@ abstract class BaseActivity<VIEW_MODEL : BaseViewModel> : JBaseActivity<VIEW_MOD
         {
             viewModel.onCreate()
 
-            viewModel.error.observe(this@BaseActivity) { error ->
-                if (error!=NO_VALUE_INT)
-                    showToast(error)
+            viewModel.errorLiveData.observe(this@BaseActivity) { error ->
+                if (error.message!=null)
+                    showToast(error.message)
+                else if (error.messageStringResource!=null)
+                    showToast(getString(error.messageStringResource))
             }
 
-            viewModel.loading.observe(this@BaseActivity) { loading ->
+            viewModel.loadingLiveData.observe(this@BaseActivity) { loading ->
                 if (loading) showLoadingDialog()
                 else hideLoadingDialog()
             }
@@ -128,7 +137,7 @@ abstract class BaseActivity<VIEW_MODEL : BaseViewModel> : JBaseActivity<VIEW_MOD
         loadingDialog?.dismiss()
     }
 
-    fun showToast(error : Int)
+    fun showToast(error : String)
     {
         Toast.makeText(this, error, Toast.LENGTH_SHORT).show()
     }

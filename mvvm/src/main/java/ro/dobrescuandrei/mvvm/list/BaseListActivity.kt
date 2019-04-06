@@ -8,16 +8,16 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.miguelcatalan.materialsearchview.MaterialSearchView
+import ro.andreidobrescu.basefilter.BaseFilter
 import ro.andreidobrescu.declarativeadapterkt.BaseDeclarativeAdapter
 import ro.andreidobrescu.declarativeadapterkt.view.HeaderView
 import ro.dobrescuandrei.mvvm.BaseActivity
 import ro.dobrescuandrei.mvvm.R
 import ro.dobrescuandrei.mvvm.list.item_decoration.FABDividerItemDecoration
 import ro.dobrescuandrei.mvvm.list.item_decoration.StickyHeadersItemDecoration
-import ro.dobrescuandrei.mvvm.utils.ARG_INITIAL_FILTER
-import ro.dobrescuandrei.mvvm.utils.ARG_INITIAL_SEARCH
+import ro.dobrescuandrei.mvvm.navigation.ARG_FILTER
 
-abstract class BaseListActivity<VIEW_MODEL : BaseListViewModel<*, FILTER>, ADAPTER : BaseDeclarativeAdapter, FILTER> : BaseActivity<VIEW_MODEL>()
+abstract class BaseListActivity<VIEW_MODEL : BaseListViewModel<*, FILTER>, ADAPTER : BaseDeclarativeAdapter, FILTER : BaseFilter> : BaseActivity<VIEW_MODEL>()
 {
     lateinit var recyclerView : RecyclerViewMod
     lateinit var emptyView : TextView
@@ -26,11 +26,8 @@ abstract class BaseListActivity<VIEW_MODEL : BaseListViewModel<*, FILTER>, ADAPT
 
     override fun loadDataFromIntent()
     {
-        val initialFilter=intent?.getSerializableExtra(ARG_INITIAL_FILTER) as? FILTER
-        if (initialFilter!=null) viewModel.filter=initialFilter
-
-        val initialSearch=intent?.getStringExtra(ARG_INITIAL_SEARCH)
-        if (initialSearch!=null) viewModel.search=initialSearch
+        val initialFilter=intent?.getSerializableExtra(ARG_FILTER) as? FILTER
+        if (initialFilter!=null) viewModel.filterLiveData.value=initialFilter
     }
 
     override fun onCreate(savedInstanceState: Bundle?)
@@ -49,8 +46,9 @@ abstract class BaseListActivity<VIEW_MODEL : BaseListViewModel<*, FILTER>, ADAPT
             {
                 if (!TextUtils.isEmpty(query))
                 {
-                    viewModel.search=query!!
-                    viewModel.loadData()
+                    viewModel.notifyFilterChange { filter ->
+                        filter.search=query
+                    }
 
                     searchView?.closeSearch()
                 }
@@ -91,22 +89,16 @@ abstract class BaseListActivity<VIEW_MODEL : BaseListViewModel<*, FILTER>, ADAPT
 
         viewModel.onCreate()
 
-        viewModel.firstPageItems.observe(this@BaseListActivity) { items ->
-            if (items!=null)
-            {
-                recyclerView.adapter?.setItems(items as List<Any>)
-                recyclerView.scrollToPosition(0)
-            }
+        viewModel.firstPageItemsLiveData.observe(this@BaseListActivity) { items ->
+            recyclerView.adapter?.setItems(items as List<Any>)
+            recyclerView.scrollToPosition(0)
         }
 
-        viewModel.nextPageItems.observe(this@BaseListActivity) { items ->
-            if (items!=null)
-            {
-                recyclerView.adapter?.addItems(items as List<Any>)
-            }
+        viewModel.nextPageItemsLiveData.observe(this@BaseListActivity) { items ->
+            recyclerView.adapter?.addItems(items as List<Any>)
         }
 
-        viewModel.isEmpty.observe(this@BaseListActivity) { isEmpty ->
+        viewModel.isEmptyLiveData.observe(this@BaseListActivity) { isEmpty ->
             if (isEmpty)
             {
                 emptyView.visibility=View.VISIBLE
@@ -135,10 +127,11 @@ abstract class BaseListActivity<VIEW_MODEL : BaseListViewModel<*, FILTER>, ADAPT
     {
         try
         {
-            if (viewModel.searchMode())
+            if (viewModel.filterLiveData.value.search!=null)
             {
-                viewModel.search=null
-                viewModel.loadData()
+                viewModel.notifyFilterChange { filter ->
+                    filter.search=null
+                }
             }
             else
             {

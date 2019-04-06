@@ -6,10 +6,8 @@ import android.view.MenuItem
 import androidx.appcompat.widget.Toolbar
 import ro.dobrescuandrei.mvvm.BaseFragment
 import ro.dobrescuandrei.mvvm.R
-import ro.dobrescuandrei.mvvm.utils.ARG_INITIAL_FILTER
-import ro.dobrescuandrei.mvvm.utils.ARG_INITIAL_SEARCH
-import ro.dobrescuandrei.mvvm.utils.setFilter
-import ro.dobrescuandrei.mvvm.utils.setSearch
+import ro.dobrescuandrei.mvvm.navigation.ARG_FILTER
+import ro.dobrescuandrei.mvvm.navigation.setFilter
 
 abstract class BaseFragmentContainerActivity<FRAGMENT : BaseFragment<*>, MODEL> : BaseContainerActivity<MODEL>()
 {
@@ -26,8 +24,7 @@ abstract class BaseFragmentContainerActivity<FRAGMENT : BaseFragment<*>, MODEL> 
         fragment=provideFragment()
 
         val fragmentArguments=fragment.arguments?:Bundle()
-        fragmentArguments.setFilter(intent?.getSerializableExtra(ARG_INITIAL_FILTER))
-        fragmentArguments.setSearch(intent?.getStringExtra(ARG_INITIAL_SEARCH))
+        fragmentArguments.setFilter(intent?.getSerializableExtra(ARG_FILTER))
         fragment.arguments=fragmentArguments
 
         supportFragmentManager.beginTransaction()

@@ -3,15 +3,14 @@ package ro.dobrescuandrei.mvvm.list.item_decoration;
 import android.graphics.Canvas;
 import android.view.View;
 import android.view.ViewGroup;
-
-import java.util.List;
-
 import androidx.recyclerview.widget.RecyclerView;
 import kotlin.jvm.functions.Function1;
 import ro.andreidobrescu.declarativeadapterkt.BaseDeclarativeAdapter;
 import ro.andreidobrescu.declarativeadapterkt.view.CellView;
 import ro.andreidobrescu.declarativeadapterkt.view.HeaderView;
 import ro.dobrescuandrei.mvvm.list.RecyclerViewMod;
+
+import java.util.List;
 
 import static android.view.ViewGroup.LayoutParams.MATCH_PARENT;
 import static android.view.ViewGroup.LayoutParams.WRAP_CONTENT;

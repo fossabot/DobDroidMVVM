@@ -7,7 +7,7 @@ import ro.dobrescuandrei.demonewlibs.R
 import ro.dobrescuandrei.demonewlibs.model.Restaurant
 import ro.dobrescuandrei.demonewlibs.restaurant.list.RestaurantListActivity
 import ro.dobrescuandrei.demonewlibs.router.ActivityRouter
-import ro.dobrescuandrei.mvvm.utils.ChooserCellView
+import ro.dobrescuandrei.mvvm.chooser.ChooserCellView
 
 class RestaurantCellView : ChooserCellView<Restaurant>
 {

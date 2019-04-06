@@ -1,6 +1,6 @@
 package ro.dobrescuandrei.demonewlibs.restaurant.details
 
-import io.reactivex.Observable
+import io.reactivex.Single
 import ro.dobrescuandrei.demonewlibs.api.GetRestaurantDetailsRequest
 import ro.dobrescuandrei.demonewlibs.model.Restaurant
 import ro.dobrescuandrei.demonewlibs.model.utils.FirstPageHeader
@@ -13,7 +13,7 @@ class RestaurantDetailsViewModel : BaseDetailsViewModel<Restaurant>()
     var firstPageStickyHeaderIndex  : Int = Int.MAX_VALUE
     var secondPageStickyHeaderIndex : Int = Int.MAX_VALUE
 
-    override fun getItems() : Observable<List<Any>> =
+    override fun getItems() : Single<List<Any>> =
             GetRestaurantDetailsRequest(model.id).execute()
                 .map { restaurant ->
                     yieldListOf<Any> {

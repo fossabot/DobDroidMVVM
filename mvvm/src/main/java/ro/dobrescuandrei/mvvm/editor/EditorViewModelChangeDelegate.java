@@ -6,7 +6,6 @@ import kotlin.jvm.functions.Function2;
 import kotlin.properties.ReadWriteProperty;
 import kotlin.reflect.KProperty;
 import org.jetbrains.annotations.NotNull;
-import ro.dobrescuandrei.mvvm.editor.BaseEditorViewModel;
 
 public class EditorViewModelChangeDelegate<FIELD_TYPE, MODEL, VIEW_MODEL extends BaseEditorViewModel<MODEL>> implements ReadWriteProperty<VIEW_MODEL, FIELD_TYPE>
 {

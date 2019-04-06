@@ -2,9 +2,10 @@ package ro.dobrescuandrei.mvvm.details
 
 import ro.andreidobrescu.declarativeadapterkt.BaseDeclarativeAdapter
 import ro.dobrescuandrei.mvvm.list.BaseListActivity
-import ro.dobrescuandrei.mvvm.utils.ARG_MODEL
+import ro.dobrescuandrei.mvvm.navigation.ARG_MODEL
+import ro.dobrescuandrei.mvvm.utils.DummyFilter
 
-abstract class BaseDetailsActivity<MODEL : Any, VIEW_MODEL : BaseDetailsViewModel<MODEL>, ADAPTER : BaseDeclarativeAdapter> : BaseListActivity<VIEW_MODEL, ADAPTER, Unit>()
+abstract class BaseDetailsActivity<MODEL : Any, VIEW_MODEL : BaseDetailsViewModel<MODEL>, ADAPTER : BaseDeclarativeAdapter> : BaseListActivity<VIEW_MODEL, ADAPTER, DummyFilter>()
 {
     override fun loadDataFromIntent()
     {

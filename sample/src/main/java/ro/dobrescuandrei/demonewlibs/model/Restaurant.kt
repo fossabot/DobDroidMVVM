@@ -4,7 +4,6 @@ import android.content.res.Resources
 import ro.dobrescuandrei.demonewlibs.R
 import ro.dobrescuandrei.demonewlibs.model.utils.ID
 import ro.dobrescuandrei.demonewlibs.model.utils.uuid
-import ro.dobrescuandrei.mvvm.utils.NO_VALUE_INT
 import java.io.Serializable
 
 open class Restaurant
@@ -12,7 +11,7 @@ open class Restaurant
     var id : ID = uuid(),
     var name : String = "",
     var rating : Int = 3,
-    var type : Int = NO_VALUE_INT
+    var type : Int? = null
 ) : Serializable
 {
     companion object

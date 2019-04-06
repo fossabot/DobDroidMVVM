@@ -8,7 +8,9 @@ import androidx.viewpager.widget.ViewPager
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import ro.dobrescuandrei.mvvm.BaseFragment
 import ro.dobrescuandrei.mvvm.R
-import ro.dobrescuandrei.mvvm.utils.*
+import ro.dobrescuandrei.mvvm.navigation.ARG_FILTER
+import ro.dobrescuandrei.mvvm.navigation.setFilter
+import ro.dobrescuandrei.mvvm.utils.SimpleFragmentPagerAdapter
 import ro.dobrescuandrei.utils.setupWithViewPager
 
 abstract class BaseFragmentsContainerActivity<MODEL> : BaseContainerActivity<MODEL>()
@@ -38,8 +40,7 @@ abstract class BaseFragmentsContainerActivity<MODEL> : BaseContainerActivity<MOD
         for (fragment in fragments)
         {
             val fragmentArguments=fragment.arguments?:Bundle()
-            fragmentArguments.setFilter(intent?.getSerializableExtra(ARG_INITIAL_FILTER))
-            fragmentArguments.setSearch(intent?.getStringExtra(ARG_INITIAL_SEARCH))
+            fragmentArguments.setFilter(intent?.getSerializableExtra(ARG_FILTER))
             fragment.arguments=fragmentArguments
         }
 

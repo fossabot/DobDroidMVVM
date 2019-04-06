@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.miguelcatalan.materialsearchview.MaterialSearchView
 import org.greenrobot.eventbus.Subscribe
+import ro.andreidobrescu.basefilter.BaseFilter
 import ro.andreidobrescu.declarativeadapterkt.BaseDeclarativeAdapter
 import ro.andreidobrescu.declarativeadapterkt.view.HeaderView
 import ro.dobrescuandrei.mvvm.BaseFragment
@@ -19,10 +20,9 @@ import ro.dobrescuandrei.mvvm.eventbus.OnKeyboardClosedEvent
 import ro.dobrescuandrei.mvvm.eventbus.OnKeyboardOpenedEvent
 import ro.dobrescuandrei.mvvm.list.item_decoration.FABDividerItemDecoration
 import ro.dobrescuandrei.mvvm.list.item_decoration.StickyHeadersItemDecoration
-import ro.dobrescuandrei.mvvm.utils.ARG_INITIAL_FILTER
-import ro.dobrescuandrei.mvvm.utils.ARG_INITIAL_SEARCH
+import ro.dobrescuandrei.mvvm.navigation.ARG_FILTER
 
-abstract class BaseListFragment<VIEW_MODEL : BaseListViewModel<*, FILTER>, ADAPTER : BaseDeclarativeAdapter, FILTER> : BaseFragment<VIEW_MODEL>()
+abstract class BaseListFragment<VIEW_MODEL : BaseListViewModel<*, FILTER>, ADAPTER : BaseDeclarativeAdapter, FILTER : BaseFilter> : BaseFragment<VIEW_MODEL>()
 {
     lateinit var recyclerView : RecyclerViewMod
     lateinit var emptyView : TextView
@@ -31,11 +31,8 @@ abstract class BaseListFragment<VIEW_MODEL : BaseListViewModel<*, FILTER>, ADAPT
 
     override fun loadDataFromArguments()
     {
-        val initialFilter=arguments?.getSerializable(ARG_INITIAL_FILTER) as? FILTER
-        if (initialFilter!=null) viewModel.filter=initialFilter
-
-        val initialSearch=arguments?.getString(ARG_INITIAL_SEARCH)
-        if (initialSearch!=null) viewModel.search=initialSearch
+        val initialFilter=arguments?.getSerializable(ARG_FILTER) as? FILTER
+        if (initialFilter!=null) viewModel.filterLiveData.value=initialFilter
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View?
@@ -54,8 +51,9 @@ abstract class BaseListFragment<VIEW_MODEL : BaseListViewModel<*, FILTER>, ADAPT
             {
                 if (!TextUtils.isEmpty(query))
                 {
-                    viewModel.search=query!!
-                    viewModel.loadData()
+                    viewModel.notifyFilterChange { filter ->
+                        filter.search=query
+                    }
 
                     searchView?.closeSearch()
                 }
@@ -96,22 +94,16 @@ abstract class BaseListFragment<VIEW_MODEL : BaseListViewModel<*, FILTER>, ADAPT
 
         viewModel.onCreate()
 
-        viewModel.firstPageItems.observe(this@BaseListFragment) { items ->
-            if (items!=null)
-            {
-                recyclerView.adapter?.setItems(items as List<Any>)
-                recyclerView.scrollToPosition(0)
-            }
+        viewModel.firstPageItemsLiveData.observe(this@BaseListFragment) { items ->
+            recyclerView.adapter?.setItems(items as List<Any>)
+            recyclerView.scrollToPosition(0)
         }
 
-        viewModel.nextPageItems.observe(this@BaseListFragment) { items ->
-            if (items!=null)
-            {
-                recyclerView.adapter?.addItems(items as List<Any>)
-            }
+        viewModel.nextPageItemsLiveData.observe(this@BaseListFragment) { items ->
+            recyclerView.adapter?.addItems(items as List<Any>)
         }
 
-        viewModel.isEmpty.observe(this@BaseListFragment) { isEmpty ->
+        viewModel.isEmptyLiveData.observe(this@BaseListFragment) { isEmpty ->
             if (isEmpty)
             {
                 emptyView.visibility=View.VISIBLE
@@ -142,10 +134,12 @@ abstract class BaseListFragment<VIEW_MODEL : BaseListViewModel<*, FILTER>, ADAPT
     {
         try
         {
-            if (viewModel.searchMode())
+            if (viewModel.filterLiveData.value.search!=null)
             {
-                viewModel.search=null
-                viewModel.loadData()
+                viewModel.notifyFilterChange { filter ->
+                    filter.search=null
+                }
+
                 return false
             }
 

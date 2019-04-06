@@ -24,8 +24,8 @@ class RestaurantEditorActivity : RestaurantEditorAdapter()
 
         toolbar.setupBackIcon()
         toolbar.setTitle(if (viewModel.addMode())
-                R.string.add_restaurant
-            else R.string.edit_restaurant)
+            R.string.add_restaurant
+        else R.string.edit_restaurant)
 
         typeButton.setOnClickListener {
             ShowDialog.withList(context = this,
@@ -71,14 +71,14 @@ class RestaurantEditorActivity : RestaurantEditorAdapter()
     override fun onAdded(event : OnEditorModel.AddedEvent<Restaurant>)
     {
         BackgroundEventBus.post(OnRestaurantAddedEvent(restaurant = event.model))
-        showToast(R.string.restaurant_added)
+        showToast(getString(R.string.restaurant_added))
         finish()
     }
 
     @Subscribe
     override fun onEdited(event : OnEditorModel.EditedEvent<Restaurant>)
     {
-        showToast(R.string.restaurant_edited)
+        showToast(getString(R.string.restaurant_edited))
         finish()
     }
 

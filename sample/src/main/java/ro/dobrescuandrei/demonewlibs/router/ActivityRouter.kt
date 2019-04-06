@@ -8,8 +8,8 @@ import ro.dobrescuandrei.demonewlibs.restaurant.editor.RestaurantEditorActivity
 import ro.dobrescuandrei.demonewlibs.restaurant.list.RestaurantListActivity
 import ro.dobrescuandrei.demonewlibs.restaurant.list.RestaurantPagedListActivity
 import ro.dobrescuandrei.demonewlibs.user.login.LoginActivity
-import ro.dobrescuandrei.mvvm.utils.setChooseMode
-import ro.dobrescuandrei.mvvm.utils.setModel
+import ro.dobrescuandrei.mvvm.navigation.setChooseMode
+import ro.dobrescuandrei.mvvm.navigation.setModel
 
 object ActivityRouter
 {
