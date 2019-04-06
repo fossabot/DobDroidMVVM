@@ -27,16 +27,16 @@ abstract class BaseViewModel : ViewModel()
 
     fun showError(error : Int)
     {
-        this.errorLiveData.value= ErrorHolder(messageStringResource = error)
+        this.errorLiveData.value=ErrorHolder(messageStringResource = error)
     }
 
     fun showError(error : String)
     {
-        this.errorLiveData.value= ErrorHolder(message = error)
+        this.errorLiveData.value=ErrorHolder(message = error)
     }
 
     fun showError(error : Throwable)
     {
-        this.errorLiveData.value= ErrorHolder(exception = error)
+        this.errorLiveData.value=ErrorHolder(exception = error)
     }
 }

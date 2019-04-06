@@ -2,6 +2,7 @@ package ro.dobrescuandrei.demonewlibs.router
 
 import android.content.Context
 import com.afollestad.materialdialogs.MaterialDialog
+import com.afollestad.materialdialogs.list.listItems
 
 object ShowDialog
 {
@@ -12,13 +13,14 @@ object ShowDialog
         onClick: ((Int, T) -> (Unit))? = null,
         values: List<T>)
     {
-        MaterialDialog.Builder(context)
+
+        MaterialDialog(context)
             .title(title)
             .cancelable(cancelable)
-            .items(values)
-            .itemsCallback { dialog, itemView, position, text ->
-                onClick?.invoke(position, values[position])
+            .show() {
+                listItems(items = values.map { it.toString() }) { dialog, position, text ->
+                    onClick?.invoke(position, values[position])
+                }
             }
-            .show()
     }
 }

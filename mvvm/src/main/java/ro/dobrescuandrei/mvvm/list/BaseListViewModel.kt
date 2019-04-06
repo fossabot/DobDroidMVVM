@@ -9,6 +9,7 @@ import io.reactivex.schedulers.Schedulers
 import ro.andreidobrescu.basefilter.BaseFilter
 import ro.dobrescuandrei.mvvm.BaseViewModel
 import ro.dobrescuandrei.mvvm.utils.NonNullableLiveData
+import ro.dobrescuandrei.mvvm.utils.notify
 
 abstract class BaseListViewModel<MODEL, FILTER : BaseFilter> : BaseViewModel
 {
@@ -63,8 +64,14 @@ abstract class BaseListViewModel<MODEL, FILTER : BaseFilter> : BaseViewModel
         getItems(filterLiveData.value).subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribeBy(onError = { ex ->
+                showError(ex)
+
                 if (isFirstPage)
+                {
                     hideLoading()
+                    isEmptyLiveData.value=true
+                    doneLoadingPages=true
+                }
             }, onSuccess = { items ->
                 if (isFirstPage)
                     hideLoading()
@@ -83,13 +90,18 @@ abstract class BaseListViewModel<MODEL, FILTER : BaseFilter> : BaseViewModel
                 }
 
                 if (!doneLoadingPages)
+                {
                     filterLiveData.value.offset+=filterLiveData.value.limit
+                    filterLiveData.notify()
+                }
             })
     }
 
     fun notifyFilterChange(consumer : (FILTER) -> (Unit))
     {
         consumer(filterLiveData.value)
+        filterLiveData.notify()
+
         loadData()
     }
 }

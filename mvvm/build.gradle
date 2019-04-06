@@ -15,6 +15,13 @@ android {
         versionCode 1
         versionName "1.0"
     }
+    compileOptions {
+        targetCompatibility 1.8
+        sourceCompatibility 1.8
+    }
+    kotlinOptions {
+        jvmTarget = "1.8"
+    }
     buildTypes {
         release {
             minifyEnabled false
@@ -23,9 +30,15 @@ android {
     }
 }
 
+configurations {
+    implementation {
+        exclude group: 'com.android.support'
+    }
+}
+
 dependencies {
     //kotlin stdlib
-    api "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+    api "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
 
     //app compat
     api 'androidx.appcompat:appcompat:1.1.0-alpha04'
@@ -37,12 +50,7 @@ dependencies {
     api 'org.greenrobot:eventbus:3.1.1'
 
     //utils
-    api ('com.github.andob:DobDroidMiscUtils:v1.1.1') {
-        exclude group: 'com.android.support'
-        exclude group: 'org.jetbrains.kotlin'
-        exclude group: 'com.balysv.materialmenu'
-        exclude group: 'com.squareup.okhttp3'
-    }
+    api 'com.github.andob:DobDroidMiscUtils:v1.1.4'
 
     //keyboard events
     api 'net.yslibrary.keyboardvisibilityevent:keyboardvisibilityevent:2.2.0'
@@ -51,10 +59,7 @@ dependencies {
     api 'com.github.andob:LocaleChanger:0.9.3'
 
     //declarative adapter
-    api ('com.github.andob:DeclarativeAdapter-kt:1.0.7') {
-        exclude group: 'com.android.support'
-        exclude group: 'org.jetbrains.kotlin'
-    }
+    api 'com.github.andob:DeclarativeAdapter-kt:1.1.0'
 
     //material search view
     api 'com.github.andob:MaterialSearchView:1.4.5'
@@ -64,5 +69,5 @@ dependencies {
     api 'io.reactivex.rxjava2:rxandroid:2.1.1'
 
     //BaseFilter class
-    api 'com.github.andob.ROOM-Dynamic-Dao:basefilter:v1.0.2'
+    api 'com.github.andob.ROOM-Dynamic-Dao:basefilter:v1.0.5'
 }

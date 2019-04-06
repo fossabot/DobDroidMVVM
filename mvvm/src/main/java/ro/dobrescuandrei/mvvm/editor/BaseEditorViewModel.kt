@@ -10,6 +10,7 @@ import ro.dobrescuandrei.mvvm.R
 import ro.dobrescuandrei.mvvm.eventbus.ForegroundEventBus
 import ro.dobrescuandrei.mvvm.eventbus.OnEditorModel
 import ro.dobrescuandrei.mvvm.utils.NonNullableLiveData
+import ro.dobrescuandrei.mvvm.utils.notify
 import kotlin.properties.ReadWriteProperty
 
 abstract class BaseEditorViewModel<MODEL : Any> : BaseViewModel
@@ -36,8 +37,6 @@ abstract class BaseEditorViewModel<MODEL : Any> : BaseViewModel
     abstract fun add (model : MODEL) : Completable
     abstract fun edit(model : MODEL) : Completable
 
-    open fun provideErrorMessage(ex : Throwable? = null) = R.string.you_have_errors_please_correct
-
     override fun onCreate()
     {
         super.onCreate()
@@ -53,7 +52,7 @@ abstract class BaseEditorViewModel<MODEL : Any> : BaseViewModel
 
         if (shouldNotifyModelLiveDataOnPropertyChange)
         {
-            modelLiveData.value=modelLiveData.value
+            modelLiveData.notify()
         }
     }
 
@@ -76,7 +75,9 @@ abstract class BaseEditorViewModel<MODEL : Any> : BaseViewModel
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeBy(onError = { exception ->
                     hideLoading()
-                    showError(provideErrorMessage(exception))
+
+                    showError(exception)
+                    showError(R.string.you_have_errors_please_correct)
                 }, onComplete = {
                     hideLoading()
 
@@ -87,7 +88,7 @@ abstract class BaseEditorViewModel<MODEL : Any> : BaseViewModel
         }
         else
         {
-            showError(provideErrorMessage())
+            showError(R.string.you_have_errors_please_correct)
         }
     }
 }
