@@ -8,7 +8,9 @@ import ro.dobrescuandrei.demonewlibs.restaurant.editor.RestaurantEditorActivity
 import ro.dobrescuandrei.demonewlibs.restaurant.list.RestaurantListActivity
 import ro.dobrescuandrei.demonewlibs.restaurant.list.RestaurantPagedListActivity
 import ro.dobrescuandrei.demonewlibs.user.login.LoginActivity
+import ro.dobrescuandrei.mvvm.navigation.setAddMode
 import ro.dobrescuandrei.mvvm.navigation.setChooseMode
+import ro.dobrescuandrei.mvvm.navigation.setEditMode
 import ro.dobrescuandrei.mvvm.navigation.setModel
 
 object ActivityRouter
@@ -42,6 +44,7 @@ object ActivityRouter
     fun startAddRestaurantActivity(from : Context)
     {
         val i=Intent(from, RestaurantEditorActivity::class.java)
+        i.setAddMode()
         from.startActivity(i)
     }
 
@@ -49,6 +52,7 @@ object ActivityRouter
     {
         val i=Intent(from, RestaurantEditorActivity::class.java)
         i.setModel(restaurant)
+        i.setEditMode()
         from.startActivity(i)
     }
 

@@ -28,7 +28,7 @@ android {
 
 dependencies {
     //architecture
-    implementation 'com.github.andob:DobDroidMVVM:1.0.8'
+    implementation 'com.github.andob:DobDroidMVVM:1.0.9'
 
     //preferences
     implementation 'com.chibatching.kotpref:kotpref:2.6.0'
