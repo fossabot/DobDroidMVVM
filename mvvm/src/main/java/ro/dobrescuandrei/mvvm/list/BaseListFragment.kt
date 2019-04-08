@@ -94,16 +94,18 @@ abstract class BaseListFragment<VIEW_MODEL : BaseListViewModel<*, FILTER>, ADAPT
 
         viewModel.onCreate()
 
-        viewModel.firstPageItemsLiveData.observe(this@BaseListFragment) { items ->
+        viewModel.firstPageItemsLiveData.observe { items ->
             recyclerView.adapter?.setItems(items as List<Any>)
             recyclerView.scrollToPosition(0)
+            viewModel.firstPageItemsLiveData.value=null
         }
 
-        viewModel.nextPageItemsLiveData.observe(this@BaseListFragment) { items ->
+        viewModel.nextPageItemsLiveData.observe { items ->
             recyclerView.adapter?.addItems(items as List<Any>)
+            viewModel.nextPageItemsLiveData.value=null
         }
 
-        viewModel.isEmptyLiveData.observe(this@BaseListFragment) { isEmpty ->
+        viewModel.isEmptyLiveData.observe { isEmpty ->
             if (isEmpty)
             {
                 emptyView.visibility=View.VISIBLE

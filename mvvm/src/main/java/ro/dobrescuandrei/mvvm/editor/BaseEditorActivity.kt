@@ -27,7 +27,7 @@ abstract class BaseEditorActivity<MODEL : Any, VIEW_MODEL : BaseEditorViewModel<
         saveButton=findViewById(R.id.saveButton)
         saveButton.setOnClickListener { viewModel.onSaveButtonClicked() }
 
-        viewModel.modelLiveData.observe(this) { model ->
+        viewModel.modelLiveData.observe { model ->
             viewModel.shouldNotifyModelLiveDataOnPropertyChange=false
             show(model)
             viewModel.shouldNotifyModelLiveDataOnPropertyChange=true

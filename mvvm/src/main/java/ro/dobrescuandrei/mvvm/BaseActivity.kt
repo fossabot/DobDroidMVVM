@@ -33,14 +33,14 @@ abstract class BaseActivity<VIEW_MODEL : BaseViewModel> : JBaseActivity<VIEW_MOD
     abstract fun layout() : Int
     open fun loadDataFromIntent() {}
 
-    fun <T : Any?> LiveData<T>.observeNullable(owner : LifecycleOwner, observer : (T?) -> (Unit))
+    fun <T : Any?> LiveData<T>.observeNullable(observer : (T?) -> (Unit))
     {
-        observe(owner, Observer(observer))
+        observe(this@BaseActivity, Observer(observer))
     }
 
-    fun <T : Any> LiveData<T>.observe(owner : LifecycleOwner, observer : (T) -> (Unit))
+    fun <T : Any> LiveData<T>.observe(observer : (T) -> (Unit))
     {
-        observe(owner, Observer<T?> { value ->
+        observe(this@BaseActivity, Observer<T?> { value ->
             if (value!=null)
                 observer(value)
         })
@@ -63,14 +63,14 @@ abstract class BaseActivity<VIEW_MODEL : BaseViewModel> : JBaseActivity<VIEW_MOD
         {
             viewModel.onCreate()
 
-            viewModel.errorLiveData.observe(this@BaseActivity) { error ->
+            viewModel.errorLiveData.observe { error ->
                 if (error.message!=null)
                     showToast(error.message)
                 else if (error.messageStringResource!=null)
                     showToast(getString(error.messageStringResource))
             }
 
-            viewModel.loadingLiveData.observe(this@BaseActivity) { loading ->
+            viewModel.loadingLiveData.observe { loading ->
                 if (loading) showLoadingDialog()
                 else hideLoadingDialog()
             }

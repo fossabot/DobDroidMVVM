@@ -25,14 +25,14 @@ abstract class BaseFragment<VIEW_MODEL : BaseViewModel> : JBaseFragment<VIEW_MOD
 
     fun viewModel() = ViewModelProviders.of(this)[viewModelClass()]
 
-    fun <T : Any?> LiveData<T>.observeNullable(owner : LifecycleOwner, observer : (T?) -> (Unit))
+    fun <T : Any?> LiveData<T>.observeNullable(observer : (T?) -> (Unit))
     {
-        observe(owner, Observer(observer))
+        observe(this@BaseFragment, Observer(observer))
     }
 
-    fun <T : Any> LiveData<T>.observe(owner : LifecycleOwner, observer : (T) -> (Unit))
+    fun <T : Any> LiveData<T>.observe(observer : (T) -> (Unit))
     {
-        observe(owner, Observer<T?> { value ->
+        observe(this@BaseFragment, Observer<T?> { value ->
             if (value!=null)
                 observer(value)
         })
@@ -53,14 +53,14 @@ abstract class BaseFragment<VIEW_MODEL : BaseViewModel> : JBaseFragment<VIEW_MOD
         {
             viewModel.onCreate()
 
-            viewModel.errorLiveData.observe(this@BaseFragment) { error ->
+            viewModel.errorLiveData.observe { error ->
                 if (error.message!=null)
                     (context as BaseActivity<*>).showToast(error.message)
                 else if (error.messageStringResource!=null)
                     (context as BaseActivity<*>).showToast(getString(error.messageStringResource))
             }
 
-            viewModel.loadingLiveData.observe(this@BaseFragment) { loading ->
+            viewModel.loadingLiveData.observe { loading ->
                 if (loading) (context as BaseActivity<*>).showLoadingDialog()
                 else (context as BaseActivity<*>).hideLoadingDialog()
             }
