@@ -77,7 +77,6 @@ abstract class BaseEditorViewModel<MODEL : Any> : BaseViewModel
                     hideLoading()
 
                     showError(exception)
-                    showError(R.string.you_have_errors_please_correct)
                 }, onComplete = {
                     hideLoading()
 
