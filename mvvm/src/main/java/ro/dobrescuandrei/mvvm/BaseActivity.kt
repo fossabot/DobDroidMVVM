@@ -68,6 +68,8 @@ abstract class BaseActivity<VIEW_MODEL : BaseViewModel> : JBaseActivity<VIEW_MOD
                     showToast(error.message)
                 else if (error.messageStringResource!=null)
                     showToast(getString(error.messageStringResource))
+                else if (error.exception?.message!=null)
+                    showToast(error.exception.message!!)
             }
 
             viewModel.loadingLiveData.observe { loading ->

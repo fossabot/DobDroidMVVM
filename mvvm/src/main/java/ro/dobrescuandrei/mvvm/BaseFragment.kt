@@ -58,6 +58,8 @@ abstract class BaseFragment<VIEW_MODEL : BaseViewModel> : JBaseFragment<VIEW_MOD
                     (context as BaseActivity<*>).showToast(error.message)
                 else if (error.messageStringResource!=null)
                     (context as BaseActivity<*>).showToast(getString(error.messageStringResource))
+                else if (error.exception?.message!=null)
+                    (context as BaseActivity<*>).showToast(error.exception.message!!)
             }
 
             viewModel.loadingLiveData.observe { loading ->
