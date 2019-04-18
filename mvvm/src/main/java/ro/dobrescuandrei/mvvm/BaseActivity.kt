@@ -13,6 +13,7 @@ import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.Observer
 import com.franmontiel.localechanger.LocaleChanger
+import com.michaelflisar.bundlebuilder.BundleArgs
 import com.miguelcatalan.materialsearchview.MaterialSearchView
 import net.yslibrary.android.keyboardvisibilityevent.KeyboardVisibilityEvent
 import net.yslibrary.android.keyboardvisibilityevent.Unregistrar
@@ -81,6 +82,12 @@ abstract class BaseActivity<VIEW_MODEL : BaseViewModel> : JBaseActivity<VIEW_MOD
         try
         {
             BackgroundEventBus.register(this)
+        }
+        catch (ex : Exception) {}
+
+        try
+        {
+            BundleArgs.bind(this, intent.extras)
         }
         catch (ex : Exception) {}
 

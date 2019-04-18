@@ -7,6 +7,7 @@ import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import com.michaelflisar.bundlebuilder.BundleArgs
 import com.miguelcatalan.materialsearchview.MaterialSearchView
 import org.greenrobot.eventbus.Subscribe
 import ro.dobrescuandrei.mvvm.eventbus.BackgroundEventBus
@@ -71,6 +72,12 @@ abstract class BaseFragment<VIEW_MODEL : BaseViewModel> : JBaseFragment<VIEW_MOD
         try
         {
             BackgroundEventBus.register(this)
+        }
+        catch (ex : Exception) {}
+
+        try
+        {
+            BundleArgs.bind(this, arguments)
         }
         catch (ex : Exception) {}
 

@@ -70,4 +70,7 @@ dependencies {
 
     //BaseFilter class
     api 'com.github.andob.ROOM-Dynamic-Dao:basefilter:v1.0.5'
+
+    //BundleArgs
+    implementation 'com.github.andob.BundleArgs:bundleargs-annotation:2.0.1'
 }
