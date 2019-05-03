@@ -7,5 +7,5 @@
     <dimen name="half_margin">8dp</dimen>
     <dimen name="quarter_margin">4dp</dimen>
     <dimen name="eight_margin">2dp</dimen>
-    <dimen name="fab_list_bottom_margin">88dp</dimen>
+    <dimen name="list_with_floating_action_button_bottom_margin">88dp</dimen>
 </resources>

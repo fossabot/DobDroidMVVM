@@ -40,15 +40,13 @@ abstract class BaseFragmentContainerActivity<FRAGMENT : BaseFragment<*>, MODEL> 
             super.onBackPressed()
     }
 
-    override fun onCreateOptionsMenu(menu: Menu?): Boolean
+    override fun onCreateOptionsMenuForFragments(menu: Menu)
     {
-        if (menu!=null) fragment.onCreateOptionsMenu(menu, menuInflater)
-        return super.onCreateOptionsMenu(menu)
+        fragment.onCreateOptionsMenu(menu, menuInflater)
     }
 
-    override fun onOptionsItemSelected(item: MenuItem?): Boolean
+    override fun onOptionsItemSelectedForFragments(item: MenuItem)
     {
-        if (item!=null) fragment.onOptionsItemSelected(item)
-        return super.onOptionsItemSelected(item)
+        fragment.onOptionsItemSelected(item)
     }
 }

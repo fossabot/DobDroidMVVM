@@ -50,7 +50,7 @@ dependencies {
     api 'org.greenrobot:eventbus:3.1.1'
 
     //utils
-    api 'com.github.andob:DobDroidMiscUtils:v1.1.7.1'
+    api 'com.github.andob:DobDroidMiscUtils:v1.1.8'
 
     //keyboard events
     api 'net.yslibrary.keyboardvisibilityevent:keyboardvisibilityevent:2.2.0'
@@ -69,5 +69,8 @@ dependencies {
     api 'io.reactivex.rxjava2:rxandroid:2.1.1'
 
     //BaseFilter class
-    api 'com.github.andob.ROOM-Dynamic-Dao:basefilter:v1.0.5'
+    api 'com.github.andob.ROOM-Dynamic-Dao:basefilter:v1.0.7'
+
+    //bundle args
+    api 'com.github.andob.BundleArgs:bundleargs-annotation:2.0.1'
 }

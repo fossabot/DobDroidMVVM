@@ -3,10 +3,10 @@ package ro.dobrescuandrei.mvvm
 import android.os.Bundle
 import android.view.*
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import com.michaelflisar.bundlebuilder.BundleArgs
 import com.miguelcatalan.materialsearchview.MaterialSearchView
 import org.greenrobot.eventbus.Subscribe
 import ro.dobrescuandrei.mvvm.eventbus.BackgroundEventBus
@@ -42,6 +42,9 @@ abstract class BaseFragment<VIEW_MODEL : BaseViewModel> : JBaseFragment<VIEW_MOD
     {
         val view=inflater.inflate(layout(), container, false)
 
+        try { BundleArgs.bind(this, arguments) }
+        catch (ex : Exception) {}
+
         loadDataFromArguments()
 
         toolbar=view.findViewById(R.id.toolbar)
@@ -68,10 +71,7 @@ abstract class BaseFragment<VIEW_MODEL : BaseViewModel> : JBaseFragment<VIEW_MOD
             }
         }
 
-        try
-        {
-            BackgroundEventBus.register(this)
-        }
+        try { BackgroundEventBus.register(this) }
         catch (ex : Exception) {}
 
         return view
@@ -92,10 +92,7 @@ abstract class BaseFragment<VIEW_MODEL : BaseViewModel> : JBaseFragment<VIEW_MOD
     {
         super.onResume()
 
-        try
-        {
-            ForegroundEventBus.register(this)
-        }
+        try { ForegroundEventBus.register(this) }
         catch (ex : Exception) {}
     }
 
@@ -103,19 +100,13 @@ abstract class BaseFragment<VIEW_MODEL : BaseViewModel> : JBaseFragment<VIEW_MOD
     {
         super.onPause()
 
-        try
-        {
-            ForegroundEventBus.unregister(this)
-        }
+        try { ForegroundEventBus.unregister(this) }
         catch (ex : Exception) {}
     }
 
     override fun onDestroy()
     {
-        try
-        {
-            BackgroundEventBus.unregister(this)
-        }
+        try { BackgroundEventBus.unregister(this) }
         catch (ex : Exception) {}
 
         toolbar=null
@@ -129,9 +120,12 @@ abstract class BaseFragment<VIEW_MODEL : BaseViewModel> : JBaseFragment<VIEW_MOD
         try
         {
             toolbar?.onCreateOptionsMenuFromFragment()
-            searchView?.setMenuItem(menu.findItem(R.id.search))
+            searchView?.setMenuItem(toolbar?.menu?.findItem(R.id.search))
         }
-        catch (ex : Exception) {}
+        catch (ex : Exception)
+        {
+            ex.printStackTrace()
+        }
 
         super.onCreateOptionsMenu(menu, menuInflater)
     }

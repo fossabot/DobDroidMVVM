@@ -66,6 +66,8 @@ abstract class BaseListViewModel<MODEL, FILTER : BaseFilter> : BaseViewModel
             .subscribeBy(onError = { ex ->
                 showError(ex)
 
+                isLoadingPage=false
+
                 if (isFirstPage)
                 {
                     hideLoading()

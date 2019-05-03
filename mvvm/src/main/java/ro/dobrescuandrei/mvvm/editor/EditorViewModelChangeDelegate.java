@@ -1,11 +1,12 @@
 package ro.dobrescuandrei.mvvm.editor;
 
+import org.jetbrains.annotations.NotNull;
+
 import kotlin.Unit;
 import kotlin.jvm.functions.Function1;
 import kotlin.jvm.functions.Function2;
 import kotlin.properties.ReadWriteProperty;
 import kotlin.reflect.KProperty;
-import org.jetbrains.annotations.NotNull;
 
 public class EditorViewModelChangeDelegate<FIELD_TYPE, MODEL, VIEW_MODEL extends BaseEditorViewModel<MODEL>> implements ReadWriteProperty<VIEW_MODEL, FIELD_TYPE>
 {

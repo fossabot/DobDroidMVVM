@@ -9,17 +9,15 @@ import android.view.MenuItem
 import android.view.Window
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
-import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.Observer
 import com.franmontiel.localechanger.LocaleChanger
+import com.michaelflisar.bundlebuilder.BundleArgs
 import com.miguelcatalan.materialsearchview.MaterialSearchView
 import net.yslibrary.android.keyboardvisibilityevent.KeyboardVisibilityEvent
 import net.yslibrary.android.keyboardvisibilityevent.Unregistrar
-import ro.dobrescuandrei.mvvm.eventbus.BackgroundEventBus
-import ro.dobrescuandrei.mvvm.eventbus.ForegroundEventBus
-import ro.dobrescuandrei.mvvm.eventbus.OnKeyboardClosedEvent
-import ro.dobrescuandrei.mvvm.eventbus.OnKeyboardOpenedEvent
+import org.greenrobot.eventbus.Subscribe
+import ro.dobrescuandrei.mvvm.eventbus.*
 import ro.dobrescuandrei.utils.Keyboard
 import ro.dobrescuandrei.utils.onCreateOptionsMenu
 import ro.dobrescuandrei.utils.onOptionsItemSelected
@@ -50,6 +48,9 @@ abstract class BaseActivity<VIEW_MODEL : BaseViewModel> : JBaseActivity<VIEW_MOD
     {
         super.onCreate(savedInstanceState)
 
+        try { BundleArgs.bind(this, intent.extras) }
+        catch (ex : Exception) {}
+
         loadDataFromIntent()
 
         setContentView(layout())
@@ -78,10 +79,7 @@ abstract class BaseActivity<VIEW_MODEL : BaseViewModel> : JBaseActivity<VIEW_MOD
             }
         }
 
-        try
-        {
-            BackgroundEventBus.register(this)
-        }
+        try { BackgroundEventBus.register(this) }
         catch (ex : Exception) {}
 
         unregistrar=KeyboardVisibilityEvent.registerEventListener(this) { isOpen ->
@@ -148,30 +146,28 @@ abstract class BaseActivity<VIEW_MODEL : BaseViewModel> : JBaseActivity<VIEW_MOD
     {
         super.onResume()
 
-        try
-        {
-            ForegroundEventBus.register(this)
-        }
+        try { ForegroundEventBus.register(this) }
         catch (ex : Exception) {}
+    }
+
+    override fun onPostResume()
+    {
+        super.onPostResume()
+
+        BackgroundEventBus.activityResultEventBus.dispose(activity = this)
     }
 
     override fun onPause()
     {
         super.onPause()
 
-        try
-        {
-            ForegroundEventBus.unregister(this)
-        }
+        try { ForegroundEventBus.unregister(this) }
         catch (ex : Exception) {}
     }
 
     override fun onDestroy()
     {
-        try
-        {
-            BackgroundEventBus.unregister(this)
-        }
+        try { BackgroundEventBus.unregister(this) }
         catch (ex : Exception) {}
 
         unregistrar?.unregister()
@@ -193,27 +189,57 @@ abstract class BaseActivity<VIEW_MODEL : BaseViewModel> : JBaseActivity<VIEW_MOD
         super.finish()
     }
 
-    override fun onCreateOptionsMenu(menu: Menu?): Boolean
+    override fun onCreateOptionsMenu(menu: Menu): Boolean
     {
         try
         {
             toolbar?.onCreateOptionsMenu(menuInflater, menu)
-            searchView?.setMenuItem(menu?.findItem(R.id.search))
+            onCreateOptionsMenuForFragments(menu)
+            searchView?.setMenuItem(menu.findItem(R.id.search))
         }
         catch (ex : Exception) {}
 
         return super.onCreateOptionsMenu(menu)
     }
 
-    override fun onOptionsItemSelected(item: MenuItem?): Boolean
+    open fun onCreateOptionsMenuForFragments(menu : Menu)
+    {
+        for (fragment in supportFragmentManager.fragments)
+            fragment.onCreateOptionsMenu(menu, menuInflater)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean
     {
         toolbar?.onOptionsItemSelected(item)
+        onOptionsItemSelectedForFragments(item)
         return super.onOptionsItemSelected(item)
+    }
+
+    open fun onOptionsItemSelectedForFragments(item: MenuItem)
+    {
+        for (fragment in supportFragmentManager.fragments)
+            fragment.onOptionsItemSelected(item)
     }
 
     override fun attachBaseContext(newBase: Context?)
     {
         super.attachBaseContext(LocaleChanger.configureBaseContext(newBase))
+    }
+
+    @Subscribe
+    fun finish(command : FinishAllActivitiesCommand)
+    {
+        if (command is FinishAllActivitiesCommand.OfTypes)
+        {
+            if (command.types.contains(this::class.java))
+                finish()
+        }
+        else if (command is FinishAllActivitiesCommand.Except)
+        {
+            if (!command.types.contains(this::class.java))
+                finish()
+        }
+        else finish()
     }
 
     abstract class WithoutViewModel : BaseActivity<BaseViewModel>()

@@ -6,7 +6,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
-import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.miguelcatalan.materialsearchview.MaterialSearchView
@@ -18,7 +17,6 @@ import ro.dobrescuandrei.mvvm.BaseFragment
 import ro.dobrescuandrei.mvvm.R
 import ro.dobrescuandrei.mvvm.eventbus.OnKeyboardClosedEvent
 import ro.dobrescuandrei.mvvm.eventbus.OnKeyboardOpenedEvent
-import ro.dobrescuandrei.mvvm.list.item_decoration.FABDividerItemDecoration
 import ro.dobrescuandrei.mvvm.list.item_decoration.StickyHeadersItemDecoration
 import ro.dobrescuandrei.mvvm.navigation.ARG_FILTER
 
@@ -56,6 +54,8 @@ abstract class BaseListFragment<VIEW_MODEL : BaseListViewModel<*, FILTER>, ADAPT
                     }
 
                     searchView?.closeSearch()
+
+                    toolbar?.title="[$query] ${toolbar.title}"
                 }
 
                 return true
@@ -124,8 +124,8 @@ abstract class BaseListFragment<VIEW_MODEL : BaseListViewModel<*, FILTER>, ADAPT
     }
 
     abstract fun provideAdapter() : ADAPTER
-    open fun provideLayoutManager() : RecyclerView.LayoutManager = LinearLayoutManager(context)
-    open fun provideItemDecoration() : RecyclerView.ItemDecoration? = FABDividerItemDecoration(context)
+    open fun provideLayoutManager() : RecyclerView.LayoutManager = RecyclerViewDefaults.layoutManagerInstantiator(context!!)
+    open fun provideItemDecoration() : RecyclerView.ItemDecoration? = RecyclerViewDefaults.itemDecorationInstantiator(context!!)
     open fun shouldLoadMoreOnScroll() : Boolean = true
     open fun provideEmptyViewText(): String = getString(R.string.no_items)
     open fun hasStickyHeaders() : Boolean = false
@@ -141,6 +141,10 @@ abstract class BaseListFragment<VIEW_MODEL : BaseListViewModel<*, FILTER>, ADAPT
                 viewModel.notifyFilterChange { filter ->
                     filter.search=null
                 }
+
+                if (toolbar?.title?.startsWith('[')==true&&
+                    toolbar?.title?.contains("] ")==true)
+                    toolbar.title=toolbar.title.split("] ").lastOrNull()?:""
 
                 return false
             }

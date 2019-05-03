@@ -33,7 +33,7 @@ abstract class BaseFragmentsContainerActivity<MODEL> : BaseContainerActivity<MOD
         viewPager=findViewById<ViewPager>(R.id.viewPager)
         viewPager.offscreenPageLimit=100
         viewPager.currentItem=initialTab
-        viewPager.adapter= SimpleFragmentPagerAdapter(
+        viewPager.adapter=SimpleFragmentPagerAdapter(
             fragmentManager = supportFragmentManager,
             fragments = fragments)
 
@@ -59,15 +59,13 @@ abstract class BaseFragmentsContainerActivity<MODEL> : BaseContainerActivity<MOD
             super.onBackPressed()
     }
 
-    override fun onCreateOptionsMenu(menu: Menu?): Boolean
+    override fun onCreateOptionsMenuForFragments(menu: Menu)
     {
-        if (menu!=null) adapter().onCreateOptionsMenu(menu, menuInflater)
-        return super.onCreateOptionsMenu(menu)
+        adapter().onCreateOptionsMenu(menu, menuInflater)
     }
 
-    override fun onOptionsItemSelected(item: MenuItem?): Boolean
+    override fun onOptionsItemSelectedForFragments(item: MenuItem)
     {
-        if (item!=null) adapter().onOptionsItemSelected(item, currentTab = viewPager.currentItem)
-        return super.onOptionsItemSelected(item)
+        adapter().onOptionsItemSelected(item, currentTab = viewPager.currentItem)
     }
 }
