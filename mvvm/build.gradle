@@ -69,7 +69,7 @@ dependencies {
     api 'io.reactivex.rxjava2:rxandroid:2.1.1'
 
     //BaseFilter class
-    api 'com.github.andob.ROOM-Dynamic-Dao:basefilter:v1.0.7'
+    api 'com.github.andob.ROOM-Dynamic-Dao:basefilter:v1.0.8'
 
     //bundle args
     api 'com.github.andob.BundleArgs:bundleargs-annotation:2.0.1'
