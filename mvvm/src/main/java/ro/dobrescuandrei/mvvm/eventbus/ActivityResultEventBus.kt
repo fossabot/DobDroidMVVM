@@ -1,6 +1,8 @@
 package ro.dobrescuandrei.mvvm.eventbus
 
 import android.app.Activity
+import android.view.View
+import androidx.fragment.app.Fragment
 
 class ActivityResultTypedEventListener<EVENT>
 (
@@ -49,4 +51,14 @@ inline fun <reified EVENT> Activity.OnActivityResult(noinline eventListener : (E
 {
     BackgroundEventBus.activityResultEventBus.register(activity = this,
         eventListener = ActivityResultTypedEventListener(EVENT::class.java, eventListener))
+}
+
+inline fun <reified EVENT> Fragment.OnActivityResult(noinline eventListener : (EVENT) -> (Unit))
+{
+    activity?.OnActivityResult(eventListener)
+}
+
+inline fun <reified EVENT> View.OnActivityResult(noinline eventListener : (EVENT) -> (Unit))
+{
+    (context as Activity).OnActivityResult(eventListener)
 }
