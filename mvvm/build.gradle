@@ -49,6 +49,9 @@ dependencies {
     //eventbus
     api 'org.greenrobot:eventbus:3.1.1'
 
+    //activity result eventbus
+    api 'com.github.andob:ActivityResultEventBus:1.0.1'
+
     //utils
     api 'com.github.andob:DobDroidMiscUtils:v1.1.8'
 

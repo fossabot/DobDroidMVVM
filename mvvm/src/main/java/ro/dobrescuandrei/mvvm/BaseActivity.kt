@@ -17,6 +17,7 @@ import com.miguelcatalan.materialsearchview.MaterialSearchView
 import net.yslibrary.android.keyboardvisibilityevent.KeyboardVisibilityEvent
 import net.yslibrary.android.keyboardvisibilityevent.Unregistrar
 import org.greenrobot.eventbus.Subscribe
+import ro.andreidobrescu.activityresulteventbus.ActivityResultEventBus
 import ro.dobrescuandrei.mvvm.eventbus.*
 import ro.dobrescuandrei.utils.Keyboard
 import ro.dobrescuandrei.utils.onCreateOptionsMenu
@@ -154,7 +155,7 @@ abstract class BaseActivity<VIEW_MODEL : BaseViewModel> : JBaseActivity<VIEW_MOD
     {
         super.onPostResume()
 
-        BackgroundEventBus.activityResultEventBus.dispose(activity = this)
+        ActivityResultEventBus.onActivityPostResumed(this)
     }
 
     override fun onPause()
@@ -169,6 +170,8 @@ abstract class BaseActivity<VIEW_MODEL : BaseViewModel> : JBaseActivity<VIEW_MOD
     {
         try { BackgroundEventBus.unregister(this) }
         catch (ex : Exception) {}
+
+        ActivityResultEventBus.onActivityDestroyed(this)
 
         unregistrar?.unregister()
         unregistrar=null
