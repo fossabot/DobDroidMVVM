@@ -2,4 +2,5 @@
 <resources>
     <string name="no_items">No items</string>
     <string name="you_have_errors_please_correct">You have errors! Please correct them!</string>
+    <string name="save">Save</string>
 </resources>
