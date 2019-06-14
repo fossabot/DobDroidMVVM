@@ -13,6 +13,7 @@ import ro.dobrescuandrei.mvvm.eventbus.BackgroundEventBus
 import ro.dobrescuandrei.mvvm.eventbus.ForegroundEventBus
 import ro.dobrescuandrei.mvvm.eventbus.OnKeyboardClosedEvent
 import ro.dobrescuandrei.mvvm.eventbus.OnKeyboardOpenedEvent
+import ro.dobrescuandrei.mvvm.utils.getRootMessage
 import ro.dobrescuandrei.utils.onCreateOptionsMenuFromFragment
 import ro.dobrescuandrei.utils.onOptionsItemSelected
 
@@ -61,8 +62,8 @@ abstract class BaseFragment<VIEW_MODEL : BaseViewModel> : JBaseFragment<VIEW_MOD
                     (context as BaseActivity<*>).showToast(error.message)
                 else if (error.messageStringResource!=null)
                     (context as BaseActivity<*>).showToast(getString(error.messageStringResource))
-                else if (error.exception?.message!=null)
-                    (context as BaseActivity<*>).showToast(error.exception.message!!)
+                else if (error.exception!=null)
+                    (context as BaseActivity<*>).showToast(error.exception.getRootMessage())
             }
 
             viewModel.loadingLiveData.observe { loading ->

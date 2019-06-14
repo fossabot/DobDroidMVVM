@@ -19,6 +19,7 @@ import net.yslibrary.android.keyboardvisibilityevent.Unregistrar
 import org.greenrobot.eventbus.Subscribe
 import ro.andreidobrescu.activityresulteventbus.ActivityResultEventBus
 import ro.dobrescuandrei.mvvm.eventbus.*
+import ro.dobrescuandrei.mvvm.utils.getRootMessage
 import ro.dobrescuandrei.utils.Keyboard
 import ro.dobrescuandrei.utils.onCreateOptionsMenu
 import ro.dobrescuandrei.utils.onOptionsItemSelected
@@ -70,8 +71,8 @@ abstract class BaseActivity<VIEW_MODEL : BaseViewModel> : JBaseActivity<VIEW_MOD
                     showToast(error.message)
                 else if (error.messageStringResource!=null)
                     showToast(getString(error.messageStringResource))
-                else if (error.exception?.message!=null)
-                    showToast(error.exception.message!!)
+                else if (error.exception!=null)
+                    showToast(error.exception.getRootMessage())
             }
 
             viewModel.loadingLiveData.observe { loading ->
