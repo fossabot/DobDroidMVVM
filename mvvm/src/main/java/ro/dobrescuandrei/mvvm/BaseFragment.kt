@@ -121,7 +121,7 @@ abstract class BaseFragment<VIEW_MODEL : BaseViewModel> : JBaseFragment<VIEW_MOD
         try
         {
             toolbar?.onCreateOptionsMenuFromFragment()
-            searchView?.setMenuItem(toolbar?.menu?.findItem(R.id.search))
+            searchView?.setMenuItem(toolbar?.menu?.findItem(R.id.searchButton))
         }
         catch (ex : Exception)
         {

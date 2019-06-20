@@ -199,7 +199,7 @@ abstract class BaseActivity<VIEW_MODEL : BaseViewModel> : JBaseActivity<VIEW_MOD
         {
             toolbar?.onCreateOptionsMenu(menuInflater, menu)
             onCreateOptionsMenuForFragments(menu)
-            searchView?.setMenuItem(menu.findItem(R.id.search))
+            searchView?.setMenuItem(menu.findItem(R.id.searchButton))
         }
         catch (ex : Exception) {}
 
