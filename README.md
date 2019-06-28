@@ -1,8 +1,6 @@
 # DobDroidMVVM
 
-### MVVM sample app (based on Android Architecutre Components MVVM)
-
-### Plus an architecture library based upon MVVM, containing a lot of features and abstraction layers that will help you develop faster and cleaner
+### A mini framework / architecture library based upon Android Architecture Components MVVM, containing a lot of features and abstraction layers that will help you develop faster and cleaner
 
 1. Screens with loading / error states / views
 2. List screens (infinite scrolling, paging, search, filters, empty / loading / error views, sticky headers)
