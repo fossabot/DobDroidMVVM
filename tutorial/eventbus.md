@@ -65,7 +65,7 @@ OnActivityResult<OnRestaurantChoosedEvent> { event ->
 
 The library defines the following standard events and commands:
 
-1. ``OnEditorModel<>.*Event``, when a model is added or edited in an editor screen (form) - see chapter 9 (todo link)
+1. ``OnEditorModel<>.*Event``, when a model is added or edited in an [editor screen (form) - see chapter 9](https://github.com/andob/DobDroidMVVM/blob/master/tutorial/editors.md)
 
 ```kotlin
 @Subscribe
@@ -99,4 +99,4 @@ BackgroundEventBus.post(FinishAllActivitiesCommand.OfTypes(listOf(SomeActivity::
 BackgroundEventBus.post(FinishAllActivitiesCommand.Except(types = listOf(SomeActivity::class.java, AnotherActivity::class.java)))
 ```
 
-### Next chapter: List screens (todo add link)
+### Next chapter: [List screens](https://github.com/andob/DobDroidMVVM/blob/master/tutorial/lists.md)

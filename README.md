@@ -9,7 +9,7 @@
 5. Multiple chooser screens (list pickers)
 6. Add / edit forms = Editor screens (validation, model binding)
 
-### For more info, please study the tutorial (todo add link)
+### For more info, please study [the tutorial](https://github.com/andob/DobDroidMVVM/blob/master/tutorial/intro.md)
 
 ### For even more info, please study the code
 

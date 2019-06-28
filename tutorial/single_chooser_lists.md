@@ -65,4 +65,4 @@ OnActivityResult<OnRestaurantChoosedEvent> { event ->
 
 Note: a list container activity will behave like a single chooser when the choose mode flag is set. Otherwise, it will behave like a normal list. The idea is to use the same common code with list screens, single and multiple list screens, so that the user can have the same feature set, search, filters, pagination, infinite scrolling etc.
 
-### Next chapter: Multi chooser list screens (todo add link)
+### Next chapter: [Multi chooser list screens](https://github.com/andob/DobDroidMVVM/blob/master/tutorial/multi_chooser_lists.md)

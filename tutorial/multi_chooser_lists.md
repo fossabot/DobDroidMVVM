@@ -79,4 +79,4 @@ OnActivityResult<OnIssuesChoosedEvent> { event ->
 }
 ```
 
-### Next chapter: Details screens (todo add link)
+### Next chapter: [Details screens](https://github.com/andob/DobDroidMVVM/blob/master/tutorial/details.md)

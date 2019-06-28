@@ -46,7 +46,7 @@ You can also use EventBus mechanism to communicate between components. Create an
 class OnLoggedInEvent
 ```
 
-For more about the EventBus, please see Chapter 4 - EventBus overview todo add link
+For more about the EventBus, please see [Chapter 4 - EventBus overview](https://github.com/andob/DobDroidMVVM/blob/master/tutorial/eventbus.md)
 
 Back to the ``LoginViewModel``, handle on success / error cases:
 
@@ -127,7 +127,7 @@ class LoginActivity : BaseActivity<LoginViewModel>()
 
 Note: each component provided by this library can be used as an Activity or as a Fragment. For instance, to create a ``LoginFragment`` simply extend ``BaseFragment`` and replace ``onCreate`` with ``onActivityCreated``.
 
-When the ``LoginViewModel`` will complete the API call, a ``OnLoggedInEvent`` event will be received. Use the routing mechanism to navigate between screens (see Chapter 3 - Navigation todo add link)
+When the ``LoginViewModel`` will complete the API call, a ``OnLoggedInEvent`` event will be received. Use the routing mechanism to navigate between screens - see [Chapter 3 - Navigation](https://github.com/andob/DobDroidMVVM/blob/master/tutorial/navigation.md)
 
 ```kotlin
     @Subscribe
@@ -178,4 +178,4 @@ class AboutActivity : BaseActivity.WithoutViewModel()
 }
 ```
 
-### Next chapter: Navigation (todo add link)
+### Next chapter: [Navigation](https://github.com/andob/DobDroidMVVM/blob/master/tutorial/navigation.md)

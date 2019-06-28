@@ -145,4 +145,4 @@ fun startMyActivity(from : Context, quantity : Int)
 
 Please DO NOT USE the vanilla intent mechanism. It is simply ugly and unclean. If you must use it, please override the ``loadDataFromIntent`` (on an activity) and ``loadDataFromArguments`` (on a fragment) and make sure you call the supermethod.
 
-### Next chapter: EventBus overview (todo add link)
+### Next chapter: [EventBus overview](https://github.com/andob/DobDroidMVVM/blob/master/tutorial/eventbus.md)

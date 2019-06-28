@@ -17,7 +17,7 @@ class RestaurantEditorViewModel : BaseEditorViewModel<Restaurant>(Restaurant())
 
 ### Create the layout
 
-todo add link to layout
+[The layout](https://github.com/andob/DobDroidMVVM/blob/master/sample/src/main/res/layout/activity_restaurant_editor.xml)
 
 ### Create the form adapter
 

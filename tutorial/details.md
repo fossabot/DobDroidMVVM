@@ -28,7 +28,7 @@ class RestaurantDetailsViewModel : BaseDetailsViewModel<Restaurant>()
 }
 ```
 
-Note: if you don't know what an yield is, please see DobDroidMiscUtils documentation todo add link
+Note: if you don't know what an yield is, please see [DobDroidMiscUtils documentation](https://github.com/andob/DobDroidMiscUtils)
 
 The activity:
 
@@ -93,4 +93,4 @@ fun startRestaurantDetailsActivity(from : Context, restaurant : Restaurant)
 }
 ```
 
-### Next chapter: Editor (forms) screens (todo add link)
+### Next chapter: [Editor screens](https://github.com/andob/DobDroidMVVM/blob/master/tutorial/editors.md)

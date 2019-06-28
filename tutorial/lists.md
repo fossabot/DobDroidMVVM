@@ -205,7 +205,7 @@ You must provide the following configuration options:
     override fun layout() = R.layout.fragment_restaurant_list
 ```
 
-The ``provideAdapter`` expects a DeclarativeAdapter object. Please check out my library, ``DeclarativeAdapter``. todo add link 
+The ``provideAdapter`` expects a DeclarativeAdapter object. Please check out my library, [DeclarativeAdapter](https://github.com/andob/DeclarativeAdapter-kt) 
 
 You can also include more, optional configuration options:
 
@@ -224,7 +224,7 @@ RecyclerViewDefaults.itemDecorationInstantiator={ context -> null }
 RecyclerViewDefaults.layoutManagerInstantiator={ context -> StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.HORIZONTAL) }
 ```
 
-Sticky header configuration, see chapter 8 - details screens todo add link
+Sticky header configuration, see [chapter 8 - details screens](https://github.com/andob/DobDroidMVVM/blob/master/tutorial/details.md)
 
 ```kotlin
 open fun hasStickyHeaders() : Boolean = false
@@ -352,4 +352,4 @@ isEmptyLiveData.observe { isEmpty ->
 }
 ```
 
-### Next chapter: Single chooser list screens (todo add link)
+### Next chapter: [Single chooser list screens](https://github.com/andob/DobDroidMVVM/blob/master/tutorial/single_chooser_lists.md)
