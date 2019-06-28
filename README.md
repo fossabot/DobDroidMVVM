@@ -2,16 +2,18 @@
 
 ### MVVM sample app (based on Android Architecutre Components MVVM)
 
-### Plus a library containing abstraction layers for some generic app features
+### Plus an architecture library based upon MVVM, containing a lot of features and abstraction layers that will help you develop faster and cleaner
 
-1. Loading, error views
-2. List screens
+1. Screens with loading / error states / views
+2. List screens (infinite scrolling, paging, search, filters, empty / loading / error views, sticky headers)
 3. Details screens
-4. "Chooser" screens (list pickers)
-5. Forms
-6. Routing
+4. Single chooser screens (list pickers)
+5. Multiple chooser screens (list pickers)
+6. Add / edit forms = Editor screens (validation, model binding)
 
-### For more info, please study the ``sample`` module
+### For more info, please study the tutorial (todo add link)
+
+### For even more info, please study the code
 
 ### Import
 
