@@ -18,6 +18,10 @@ abstract class BaseEditorActivity<MODEL : Any, VIEW_MODEL : BaseEditorViewModel<
         if (model!=null) viewModel.modelLiveData.value=model
 
         viewModel.addMode=intent?.getBooleanExtra(ARG_ADD_MODE, true)?:true
+
+        if (viewModel.addMode)
+            onCreateForAdd(model)
+        else onCreateForEdit(model!!)
     }
 
     override fun onCreate(savedInstanceState: Bundle?)
@@ -33,6 +37,9 @@ abstract class BaseEditorActivity<MODEL : Any, VIEW_MODEL : BaseEditorViewModel<
             viewModel.shouldNotifyModelLiveDataOnPropertyChange=true
         }
     }
+
+    open fun onCreateForAdd(templateModel : MODEL?) {}
+    open fun onCreateForEdit(model : MODEL) {}
 
     abstract fun show(model : MODEL)
 
