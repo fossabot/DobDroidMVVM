@@ -56,11 +56,6 @@ abstract class BaseEditorViewModel<MODEL : Any> : BaseViewModel
         }
     }
 
-    fun <FIELD_TYPE, MODEL : Any, VIEW_MODEL : BaseEditorViewModel<MODEL>>
-        observable(viewModelChangeNotifyier : (MODEL, FIELD_TYPE) -> (Unit))
-            : ReadWriteProperty<VIEW_MODEL, FIELD_TYPE> =
-                EditorViewModelChangeDelegate(viewModelChangeNotifyier)
-
     @SuppressLint("CheckResult")
     fun onSaveButtonClicked()
     {
