@@ -53,7 +53,7 @@ dependencies {
     api 'com.github.andob:ActivityResultEventBus:1.0.1'
 
     //utils
-    api 'com.github.andob:DobDroidMiscUtils:v1.1.8'
+    api 'com.github.andob:DobDroidMiscUtils:1.2.0'
 
     //keyboard events
     api 'net.yslibrary.keyboardvisibilityevent:keyboardvisibilityevent:2.2.0'
