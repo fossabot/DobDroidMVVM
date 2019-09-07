@@ -94,7 +94,11 @@ The activity is responsible for transforming user events into ViewModel changes 
                 title = R.string.choose_type,
                 onClick = { index, value ->
                     viewModel.notifyChange { restaurant ->
-                        restaurant.type=index+1
+                        restaurant.type=when (index)
+                        {
+                            0 -> Restaurant.TYPE_NORMAL
+                            1 -> Restaurant.TYPE_FAST_FOOD
+                        }
                     }
                 },
                 values = listOf(
@@ -138,7 +142,7 @@ Another example with an edit text:
 Another example with ActivityResult:
 
 ```
-parentRestaurantButton.setOnTextChangedListener { name ->
+parentRestaurantButton.setOnClickListener {
     ActivityRouter.startChooseRestaurantActivity(from = this)
     OnActivityResult<OnRestaurantChoosedEvent> { event ->
         viewModel.notifyChange { restaurant ->
