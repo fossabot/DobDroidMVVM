@@ -143,6 +143,6 @@ fun startMyActivity(from : Context, quantity : Int)
 }
 ```
 
-Please DO NOT USE [https://stackoverflow.com/a/2091482/11536597](the vanilla intent argument-passing mechanism). It is simply ugly and unclean. If you must use it, please override the ``loadDataFromIntent`` (on an activity) and ``loadDataFromArguments`` (on a fragment) and make sure you call the supermethod.
+Please DO NOT USE [the vanilla intent argument-passing mechanism](https://stackoverflow.com/a/2091482/11536597). It is simply ugly and unclean. If you must use it, please override the ``loadDataFromIntent`` (on an activity) and ``loadDataFromArguments`` (on a fragment) and make sure you call the supermethod.
 
 ### Next chapter: [EventBus overview](https://github.com/andob/DobDroidMVVM/blob/master/tutorial/eventbus.md)
