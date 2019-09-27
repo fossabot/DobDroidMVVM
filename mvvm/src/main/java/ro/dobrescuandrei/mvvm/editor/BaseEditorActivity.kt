@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.widget.Button
 import ro.dobrescuandrei.mvvm.BaseActivity
 import ro.dobrescuandrei.mvvm.R
-import ro.dobrescuandrei.mvvm.eventbus.OnEditorModel
 import ro.dobrescuandrei.mvvm.navigation.ARG_ADD_MODE
 import ro.dobrescuandrei.mvvm.navigation.ARG_MODEL
 
@@ -42,7 +41,4 @@ abstract class BaseEditorActivity<MODEL : Any, VIEW_MODEL : BaseEditorViewModel<
     open fun onCreateForEdit(model : MODEL) {}
 
     abstract fun show(model : MODEL)
-
-    abstract fun onAdded(event : OnEditorModel.AddedEvent<MODEL>)
-    abstract fun onEdited(event : OnEditorModel.EditedEvent<MODEL>)
 }

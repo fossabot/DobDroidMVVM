@@ -27,7 +27,7 @@ class DividerItemDecoration
     override fun onDraw(c: Canvas, parent: RecyclerView, state: RecyclerView.State)
     {
         val left=parent.paddingLeft.toFloat()
-        val right=(parent.width.toFloat())-(parent.paddingRight.toFloat()?:0.0f)
+        val right=parent.width.toFloat()-parent.paddingRight.toFloat()
 
         val paint= Paint()
         paint.strokeWidth=1.0f

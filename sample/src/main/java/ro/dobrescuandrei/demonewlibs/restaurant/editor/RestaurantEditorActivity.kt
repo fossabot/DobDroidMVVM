@@ -9,10 +9,10 @@ import ro.dobrescuandrei.demonewlibs.R
 import ro.dobrescuandrei.demonewlibs.model.Restaurant
 import ro.dobrescuandrei.demonewlibs.model.utils.OnRestaurantAddedEvent
 import ro.dobrescuandrei.demonewlibs.model.utils.OnRestaurantChoosedEvent
+import ro.dobrescuandrei.demonewlibs.model.utils.OnRestaurantEditedEvent
 import ro.dobrescuandrei.demonewlibs.router.ActivityRouter
 import ro.dobrescuandrei.demonewlibs.router.ShowDialog
 import ro.dobrescuandrei.mvvm.eventbus.BackgroundEventBus
-import ro.dobrescuandrei.mvvm.eventbus.OnEditorModel
 import ro.dobrescuandrei.utils.setOnTextChangedListener
 import ro.dobrescuandrei.utils.setupBackIcon
 
@@ -68,15 +68,14 @@ class RestaurantEditorActivity : RestaurantEditorAdapter()
     }
 
     @Subscribe
-    override fun onAdded(event : OnEditorModel.AddedEvent<Restaurant>)
+    fun onAdded(event : OnRestaurantAddedEvent)
     {
-        BackgroundEventBus.post(OnRestaurantAddedEvent(restaurant = event.model))
         showToast(getString(R.string.restaurant_added))
         finish()
     }
 
     @Subscribe
-    override fun onEdited(event : OnEditorModel.EditedEvent<Restaurant>)
+    fun onEdited(event : OnRestaurantEditedEvent)
     {
         showToast(getString(R.string.restaurant_edited))
         finish()

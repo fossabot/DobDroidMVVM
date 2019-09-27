@@ -61,27 +61,15 @@ OnActivityResult<OnRestaurantChoosedEvent> { event ->
 }
 ```
 
-### Standard events and commands
+### Predefined events and commands
 
-The library defines the following standard events and commands:
+The library defines the following predefined events and commands:
 
-1. ``OnEditorModel<>.*Event``, when a model is added or edited in an [editor screen (form) - see chapter 9](https://github.com/andob/DobDroidMVVM/blob/master/tutorial/editors.md)
+1. Keyboard events:
 
 ```kotlin
-@Subscribe
-override fun onAdded(event : OnEditorModel.AddedEvent<Restaurant>)
-{
-    BackgroundEventBus.post(OnRestaurantAddedEvent(restaurant = event.model))
-    showToast(getString(R.string.restaurant_added))
-    finish()
-}
-
-@Subscribe
-override fun onEdited(event : OnEditorModel.EditedEvent<Restaurant>)
-{
-    showToast(getString(R.string.restaurant_edited))
-    finish()
-}
+class OnKeyboardOpenedEvent
+class OnKeyboardClosedEvent
 ```
 
 2. ``FinishAllActivitiesCommand``. This command can be used to finish background activities. Useful for logout, for instance:

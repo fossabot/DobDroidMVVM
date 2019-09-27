@@ -1,12 +1,12 @@
 # DobDroidMVVM
 
-### A mini framework / architecture library based upon Android Architecture Components MVVM, containing a lot of features and abstraction layers that will help you develop faster and cleaner
+### A mini framework / architecture library based upon Android Architecture Components MVVM, containing a lot of features and abstraction layers that will help you develop faster and cleaner:
 
 1. Screens with loading / error states / views
 2. List screens (infinite scrolling, paging, search, filters, empty / loading / error views, sticky headers)
 3. Details screens
-4. Single chooser screens (list pickers)
-5. Multiple chooser screens (list pickers)
+4. Single chooser screens
+5. Multiple chooser screens
 6. Add / edit forms = Editor screens (validation, model binding)
 
 ### For more info, please study [the tutorial](https://github.com/andob/DobDroidMVVM/blob/master/tutorial/intro.md)
@@ -24,7 +24,7 @@ allprojects {
 ```
 ```
 dependencies {
-    api 'com.github.andob:DobDroidMVVM:1.1.8'
+    api 'com.github.andob:DobDroidMVVM:1.1.9'
 }
 ```
 
@@ -43,5 +43,5 @@ Unless required by applicable law or agreed to in writing, software
 distributed under the License is distributed on an "AS IS" BASIS,
 WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
-limitations under the License.`
+limitations under the License.
 ```

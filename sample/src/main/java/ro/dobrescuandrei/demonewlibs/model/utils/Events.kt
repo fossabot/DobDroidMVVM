@@ -6,3 +6,4 @@ class OnLoggedInEvent
 
 class OnRestaurantChoosedEvent(val restaurant : Restaurant)
 class OnRestaurantAddedEvent(val restaurant : Restaurant)
+class OnRestaurantEditedEvent(val restaurant : Restaurant)

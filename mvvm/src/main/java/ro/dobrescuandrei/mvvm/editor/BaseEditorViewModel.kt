@@ -8,10 +8,8 @@ import io.reactivex.schedulers.Schedulers
 import ro.dobrescuandrei.mvvm.BaseViewModel
 import ro.dobrescuandrei.mvvm.R
 import ro.dobrescuandrei.mvvm.eventbus.ForegroundEventBus
-import ro.dobrescuandrei.mvvm.eventbus.OnEditorModel
 import ro.dobrescuandrei.mvvm.utils.NonNullableLiveData
 import ro.dobrescuandrei.mvvm.utils.notify
-import kotlin.properties.ReadWriteProperty
 
 abstract class BaseEditorViewModel<MODEL : Any> : BaseViewModel
 {
@@ -76,8 +74,8 @@ abstract class BaseEditorViewModel<MODEL : Any> : BaseViewModel
                     hideLoading()
 
                     if (addMode())
-                        ForegroundEventBus.post(OnEditorModel.AddedEvent(modelLiveData.value))
-                    else ForegroundEventBus.post(OnEditorModel.EditedEvent(modelLiveData.value))
+                        onAdded(modelLiveData.value)
+                    else onEdited(modelLiveData.value)
                 })
         }
         else
@@ -85,4 +83,7 @@ abstract class BaseEditorViewModel<MODEL : Any> : BaseViewModel
             showError(R.string.you_have_errors_please_correct)
         }
     }
+
+    open fun onAdded(model : MODEL) {}
+    open fun onEdited(model : MODEL) {}
 }

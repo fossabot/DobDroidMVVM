@@ -12,7 +12,18 @@ class RestaurantEditorViewModel : BaseEditorViewModel<Restaurant>(Restaurant())
 
     override fun edit(restaurant : Restaurant) =
         EditRestaurantRequest(restaurant).execute()
+        
+    override fun onAdded(restaurant : Restaurant) =
+        BackgroundEventBus.post(OnRestaurantAddedEvent(restaurant))
+
+    override fun onEdited(restaurant : Restaurant) =
+        BackgroundEventBus.post(OnRestaurantEditedEvent(restaurant))
 }
+```
+
+```kotlin
+class OnRestaurantAddedEvent(val restaurant : Restaurant)
+class OnRestaurantEditedEvent(val restaurant : Restaurant)
 ```
 
 ### Create the layout
@@ -154,19 +165,18 @@ parentRestaurantButton.setOnClickListener {
 
 IMPORTANT NOTE: Each form input must be binded to ViewModel change events!!!
 
-Also implement onAdded and onEdited events, called when the ViewModel finishes adding or editing a model, after the save button is pressed:
+Also implement events triggered when the ViewModel finishes adding or editing a model, after the save button is pressed:
 
 ```
 @Subscribe
-override fun onAdded(event : OnEditorModel.AddedEvent<Restaurant>)
+fun onAdded(event : OnRestaurantAddedEvent)
 {
-    BackgroundEventBus.post(OnRestaurantAddedEvent(restaurant = event.model))
     showToast(getString(R.string.restaurant_added))
     finish()
 }
 
 @Subscribe
-override fun onEdited(event : OnEditorModel.EditedEvent<Restaurant>)
+fun onEdited(event : OnRestaurantEditedEvent)
 {
     showToast(getString(R.string.restaurant_edited))
     finish()
