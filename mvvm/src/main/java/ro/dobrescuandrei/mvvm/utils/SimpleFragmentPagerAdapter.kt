@@ -12,7 +12,7 @@ class SimpleFragmentPagerAdapter
 (
     fragmentManager : FragmentManager,
     val fragments : Array<BaseFragment<*>>
-) : FragmentPagerAdapter(fragmentManager)
+) : FragmentPagerAdapter(fragmentManager, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT)
 {
     override fun getItem(position: Int): Fragment = fragments[position]
     override fun getCount(): Int = fragments.size
