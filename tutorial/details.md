@@ -13,22 +13,22 @@ class RestaurantDetailsViewModel : BaseDetailsViewModel<Restaurant>()
     override fun getItems() : Single<List<Any>> =
             GetRestaurantDetailsRequest(model.id).execute()
                 .map { restaurant ->
-                    yieldListOf<Any> {
-                        firstPageStickyHeaderIndex=index()
-                        yield(FirstPageHeader())
-                        for (i in 1..10)
-                            yield(restaurant)
+                    val items=mutableListOf<Any>()
+                    
+                    firstPageStickyHeaderIndex=items.size
+                    items.add(FirstPageStickyHeader())
+                    for (i in 1..10)
+                        items.add(restaurant)
 
-                        secondPageStickyHeaderIndex=index()
-                        yield(SecondPageHeader())
-                        for (i in 1..10)
-                            yield(restaurant)
-                    }
+                    secondPageStickyHeaderIndex=items.size
+                    items.add(SecondPageStickyHeader())
+                    for (i in 1..10)
+                        items.add(restaurant)
+                    
+                    return@map items
                 }
 }
 ```
-
-Note: if you don't know what an yield is, please see [DobDroidMiscUtils documentation](https://github.com/andob/DobDroidMiscUtils)
 
 The activity:
 
@@ -53,11 +53,11 @@ class RestaurantDetailsActivity : BaseDetailsActivity<Restaurant, RestaurantDeta
         adapter.whenInstanceOf(Restaurant::class,
                 use = { RestaurantCellView(it) })
             .whenInstanceOf(
-                FirstPageHeader::class,
-                use = { FirstPageHeaderView(it) })
+                FirstPageStickyHeader::class,
+                use = { FirstPageStickyHeaderView(it) })
             .whenInstanceOf(
-                SecondPageHeader::class,
-                use = { SecondPageHeaderView(it) })
+                SecondPageStickyHeader::class,
+                use = { SecondPageStickyHeaderView(it) })
 
         return adapter
     }
@@ -68,15 +68,15 @@ To configure the sticky headers:
 ```kotlin
     override fun provideStickyHeaderModelClass(position: Int): Class<*>? = when
     {
-        position>=viewModel.secondPageStickyHeaderIndex -> SecondPageHeader::class.java
-        position>=viewModel.firstPageStickyHeaderIndex  -> FirstPageHeader::class.java
+        position>=viewModel.secondPageStickyHeaderIndex -> SecondPageStickyHeader::class.java
+        position>=viewModel.firstPageStickyHeaderIndex  -> FirstPageStickyHeader::class.java
         else -> null
     }
 
     override fun provideStickyHeaderView(position: Int): HeaderView<*>? = when
     {
-        position>=viewModel.secondPageStickyHeaderIndex -> SecondPageHeaderView(this)
-        position>=viewModel.firstPageStickyHeaderIndex  -> FirstPageHeaderView(this)
+        position>=viewModel.secondPageStickyHeaderIndex -> SecondPageStickyHeaderView(this)
+        position>=viewModel.firstPageStickyHeaderIndex  -> FirstPageStickyHeaderView(this)
         else -> null
     }
 }
